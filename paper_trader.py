@@ -18,7 +18,7 @@ Run it once per trading day to keep a live paper portfolio going:
     (it saves its state in paper_state.json and tells you the trades it WOULD make)
 
 Strategies:  hold | voltarget | sma | trend200
-  hold       own everything equally, never sell (the benchmark to beat)
+  hold       buy everything equally once, then never trade again (the benchmark)
   voltarget  own less of a stock when it is swinging wildly (best risk-adjusted
              result in my tests, but it did not beat plain holding)
   sma        own a stock only while its 50-day average is above its 200-day
@@ -79,7 +79,7 @@ def equity_of(state, px):
     return state["cash"] + sum(sh * px[t] for t, sh in state["shares"].items())
 
 
-def rebalance(state, date, px, weights):
+def rebalance(state, date, px, weights, trade=True):
     """Move the fake portfolio toward its target weights at today's prices."""
     eq = equity_of(state, px)
     n = len(px)
@@ -88,6 +88,8 @@ def rebalance(state, date, px, weights):
     for t in px.index:
         have = state["shares"].get(t, 0.0) * px[t]
         orders.append((t, wants[t] - have))
+    if not trade:
+        orders = []
     # sells first so there is cash for the buys
     for t, diff in sorted(orders, key=lambda x: x[1]):
         if abs(diff) < MIN_TRADE * eq or px[t] <= 0:
@@ -121,13 +123,13 @@ def report(state, prices, start_idx, cash0):
     dd = (eq / eq.cummax() - 1).min()
     sharpe = rets.mean() / rets.std() * np.sqrt(252) if rets.std() > 0 else float("nan")
     held = prices.iloc[start_idx:]
-    hold = (1 + held.pct_change().fillna(0).mean(axis=1)).cumprod()  # equal mix, kept even
+    hold = (held / held.iloc[0]).mean(axis=1)  # buy equal amounts once, never trade
     hold_total = hold.iloc[-1] - 1
     hold_dd = (hold / hold.cummax() - 1).min()
     print("\n=== Paper trading results (fake money) ===")
     print(f"Start: ${cash0:,.0f}   End: ${eq.iloc[-1]:,.2f}   Days: {len(eq)}")
     print(f"Bot return:          {total:7.1%}   worst drop {dd:7.1%}   Sharpe {sharpe:5.2f}")
-    print(f"Just holding (same stocks, equal mix, no costs): {hold_total:7.1%}   worst drop {hold_dd:7.1%}")
+    print(f"Just holding (same stocks, bought once, no costs): {hold_total:7.1%}   worst drop {hold_dd:7.1%}")
     print(f"Trades made: {len(state['trades'])}")
     return eq
 
@@ -151,7 +153,8 @@ def main():
         start = min(200, len(prices) - 2)
         state = new_state(args.cash)
         for i in range(start, len(prices)):
-            rebalance(state, prices.index[i], prices.iloc[i], weights.iloc[i])
+            first = not any(v > 1e-9 for v in state["shares"].values())
+            rebalance(state, prices.index[i], prices.iloc[i], weights.iloc[i], trade=(args.strategy != "hold" or first))
         eq = report(state, prices, start, args.cash)
         pd.DataFrame(state["trades"]).to_csv("paper_trades.csv", index=False)
         eq.to_csv("paper_equity.csv", header=["equity"])
@@ -173,7 +176,8 @@ def main():
             print(f"Already ran for {date.date()}. Run again after the next market close.")
         else:
             before = len(state["trades"])
-            rebalance(state, date, px, w)
+            first = not any(v > 1e-9 for v in state["shares"].values())
+            rebalance(state, date, px, w, trade=(args.strategy != "hold" or first))
             print(f"Paper orders for {date.date()} (NOT real, nothing was sent anywhere):")
             for tr in state["trades"][before:]:
                 print(f"  {tr['side']:<4} {tr['shares']:>10} {tr['ticker']} @ ${tr['price']}")

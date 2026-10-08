@@ -8,7 +8,7 @@
 [hidden]{display:none!important}
 
 /* Layout: one calm column on a grey plane; summary first, then charts, then the ledger.
-   Blue = plain hold, orange = volatility rule, everywhere on the page. */
+   Blue = original 10 buy-and-hold, orange = S&P 500 picker, everywhere on the page. */
 :root {
   --plane: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
   --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10); --wash: #f0efec;
@@ -101,24 +101,24 @@ footer { color: var(--muted); font-size: 12px; }
   </header>
   <p class="notice">Practice only. These portfolios use fake money and are not connected to any broker.</p>
 
-  <div class="tabs" role="tablist">
-    <button class="tab" role="tab" id="t-live" aria-selected="true" aria-controls="live">Live</button>
-    <button class="tab" role="tab" id="t-replay" aria-selected="false" aria-controls="replay">3-year replay</button>
-  </div>
-
   <section id="live" class="stack" aria-labelledby="t-live">
     <div class="cards" id="liveCards"><p class="empty">Loading portfolios…</p></div>
     <div class="card">
       <h2>Portfolio value since the first day</h2>
-      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
+      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>S&amp;P 500 picker</span></div>
       <div class="chart" id="liveChart"></div>
       <p class="note" id="liveNote"></p>
     </div>
     <div class="card">
       <h2>What each portfolio owns</h2>
       <p class="note" style="margin-top:2px">Dollar value of each stock today.</p>
-      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
+      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>S&amp;P 500 picker</span></div>
       <div id="holdings"></div>
+    </div>
+    <div class="card">
+      <h2>Picker: today's top-ranked stocks</h2>
+      <p class="note" id="scanNote" style="margin-top:2px"></p>
+      <div class="scroll" id="scan"></div>
     </div>
     <div class="card">
       <h2>Recent trades</h2>
@@ -126,36 +126,14 @@ footer { color: var(--muted); font-size: 12px; }
     </div>
   </section>
 
-  <section id="replay" class="stack" hidden aria-labelledby="t-replay">
-    <div class="cards" id="replayCards"></div>
-    <div class="card">
-      <h2>Growth of $10,000</h2>
-      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
-      <div class="chart" id="eqChart"></div>
-    </div>
-    <div class="card">
-      <h2>How far below its peak each portfolio sat</h2>
-      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
-      <div class="chart" id="ddChart"></div>
-      <p class="note">Deeper dips mean a bumpier ride. Zero means a new high.</p>
-    </div>
-    <div class="card read" id="readout"></div>
-    <div class="card">
-      <details>
-        <summary>Show the numbers behind the charts</summary>
-        <div class="scroll" id="replayTable"></div>
-      </details>
-    </div>
-  </section>
-
-  <footer>Live numbers update by themselves after each trading day's close. The replay uses today's 10 stocks, which flatters both rules. Not financial advice.</footer>
+  <footer>Live numbers update by themselves after each trading day's close. The picker is a simple rule-based experiment and is not proven to beat holding. Not financial advice.</footer>
 </main>
 <div class="tip" id="tip" hidden></div>
 
 <script>
 (function () {
-  var NAMES = { hold: 'Plain hold', vol: 'Volatility rule' };
-  var RULES = { hold: 'Owns every stock equally and never sells.', vol: 'Owns less of a stock while its price is swinging.' };
+  var NAMES = { hold: 'Original 10 (buy and hold)', vol: 'S&P 500 picker' };
+  var RULES = { hold: 'Bought Apple, Microsoft, Nvidia and 7 others once, and never sells.', vol: 'Scans all ~500 S&P 500 stocks daily and holds the best 10, selling ones that turn bad.' };
   var CLS = { hold: 'c1', vol: 'c2' };
   var VAR = { hold: 'var(--s1)', vol: 'var(--s2)' };
   var state = { live: {}, replay: null };
@@ -276,7 +254,7 @@ footer { color: var(--muted); font-size: 12px; }
     var dates = h.equity.map(function (r) { return r[0]; });
     lineChart($('liveChart'), {
       x: dates, height: 260, include: h.startCash, includeLabel: 'Start ' + money(h.startCash),
-      label: 'Portfolio value by day for the plain hold and volatility rule portfolios',
+      label: 'Portfolio value by day for the buy-and-hold and S&P 500 picker portfolios',
       series: [{ name: NAMES.hold, color: VAR.hold, y: h.equity.map(function (r) { return r[1]; }) },
                { name: NAMES.vol, color: VAR.vol, y: v.equity.map(function (r) { return r[1]; }) }],
       yTick: function (t) { return money(t); }, tipVal: function (val) { return money(val, 2); }
@@ -304,71 +282,26 @@ footer { color: var(--muted); font-size: 12px; }
     keys.forEach(function (k, i) { docs[i].trades.forEach(function (t) { rows.push({ k: k, t: t }); }); });
     rows.sort(function (a, b) { return a.t.date < b.t.date ? 1 : a.t.date > b.t.date ? -1 : (a.t.ticker < b.t.ticker ? -1 : 1); });
     if (!rows.length) { $('trades').innerHTML = '<p class="empty">No trades yet.</p>'; return; }
-    $('trades').innerHTML = '<table><thead><tr><th>Date</th><th>Portfolio</th><th>Action</th><th>Stock</th><th class="r">Shares</th><th class="r">Price</th></tr></thead><tbody>' +
+    $('trades').innerHTML = '<table><thead><tr><th>Date</th><th>Portfolio</th><th>Action</th><th>Stock</th><th class="r">Shares</th><th class="r">Price</th><th>Why</th></tr></thead><tbody>' +
       rows.slice(0, 40).map(function (r) {
-        return '<tr><td>' + esc(r.t.date) + '</td><td><i class="sw ' + CLS[r.k] + '"></i>' + NAMES[r.k] + '</td><td>' + (r.t.side === 'BUY' ? 'Bought' : 'Sold') + '</td><td>' + esc(r.t.ticker) + '</td><td class="r">' + esc(r.t.shares) + '</td><td class="r">' + money(+r.t.price, 2) + '</td></tr>';
+        return '<tr><td>' + esc(r.t.date) + '</td><td><i class="sw ' + CLS[r.k] + '"></i>' + NAMES[r.k] + '</td><td>' + (r.t.side === 'BUY' ? 'Bought' : 'Sold') + '</td><td>' + esc(r.t.ticker) + '</td><td class="r">' + esc(r.t.shares) + '</td><td class="r">' + money(+r.t.price, 2) + '</td><td>' + esc(r.t.why || (r.t.side === 'BUY' ? 'initial purchase' : '')) + '</td></tr>';
       }).join('') + '</tbody></table>';
   }
 
-  /* ---------- REPLAY tab ---------- */
-  function drawdown(arr) { var pk = -Infinity; return arr.map(function (v) { pk = Math.max(pk, v); return (v / pk - 1) * 100; }); }
-  function renderReplay() {
-    var r = state.replay; if (!r) return;
-    var keys = ['hold', 'vol'];
-    $('replayCards').innerHTML = keys.map(function (k) {
-      var s = r.stats[k], end = r[k][r[k].length - 1];
-      return '<div class="card"><div class="card-head"><i class="dot ' + CLS[k] + '"></i><span class="name">' + NAMES[k] + '</span></div>' +
-        '<p class="rule">' + RULES[k] + '</p><div class="big">' + pct(s.ret, 0) + '</div>' +
-        '<div class="delta flat">$10,000 became ' + money(end) + '</div>' +
-        '<dl class="facts"><div class="fact"><dt>Worst dip</dt><dd>' + pct(s.dd) + '</dd></div>' +
-        '<div class="fact"><dt>Return per unit of risk</dt><dd>' + s.sharpe.toFixed(2) + '</dd></div>' +
-        '<div class="fact"><dt>Trades</dt><dd>' + s.trades + '</dd></div></dl></div>';
-    }).join('');
-    drawReplayCharts();
-    var h = r.stats.hold, v = r.stats.vol;
-    $('readout').innerHTML = '<h2>What this says</h2>' +
-      '<p><strong>' + (h.ret > v.ret ? 'Holding made more money:' : 'The volatility rule made more money:') + '</strong> ' + pct(h.ret, 0) + ' for plain hold against ' + pct(v.ret, 0) + ' for the volatility rule.</p>' +
-      '<p><strong>' + (v.dd > h.dd ? 'The volatility rule had a smoother ride:' : 'Plain hold had a smoother ride:') + '</strong> its worst dip was ' + pct(Math.max(v.dd, h.dd)) + ' against ' + pct(Math.min(v.dd, h.dd)) + '.</p>' +
-      '<p>Return per unit of risk was ' + h.sharpe.toFixed(2) + ' for plain hold and ' + v.sharpe.toFixed(2) + ' for the volatility rule, so the two came out close once the bumps are counted.</p>' +
-      '<p>The replay covers ' + dlong(r.dates[0]) + ' to ' + dlong(r.dates[r.dates.length - 1]) + ', charging 0.1% on every trade. These stocks rose a lot over that stretch, which helps holding.</p>';
-    $('replayTable').innerHTML = '<table><thead><tr><th>Date</th><th class="r">Plain hold</th><th class="r">Volatility rule</th></tr></thead><tbody>' +
-      r.dates.map(function (d, i) { return '<tr><td>' + d + '</td><td class="r">' + money(r.hold[i]) + '</td><td class="r">' + money(r.vol[i]) + '</td></tr>'; }).join('') + '</tbody></table>';
-  }
-  function drawReplayCharts() {
-    var r = state.replay; if (!r || $('replay').hidden) return;
-    lineChart($('eqChart'), {
-      x: r.dates, height: 300, include: r.startCash, includeLabel: 'Start ' + money(r.startCash),
-      label: 'Growth of ten thousand dollars under the plain hold and volatility rule portfolios',
-      series: [{ name: NAMES.hold, color: VAR.hold, y: r.hold }, { name: NAMES.vol, color: VAR.vol, y: r.vol }],
-      yTick: function (t) { return t >= 1000 ? '$' + (t / 1000) + 'k' : money(t); },
-      tipVal: function (v) { return money(v) + ' (' + pct((v / r.startCash - 1) * 100, 0) + ')'; }
-    });
-    lineChart($('ddChart'), {
-      x: r.dates, height: 220, max: 0, zeroAxis: true,
-      label: 'Percent below the previous peak for each portfolio',
-      series: [{ name: NAMES.hold, color: VAR.hold, y: drawdown(r.hold) }, { name: NAMES.vol, color: VAR.vol, y: drawdown(r.vol) }],
-      yTick: function (t) { return t === 0 ? '0%' : '−' + Math.abs(t) + '%'; },
-      tipVal: function (v) { return v === 0 ? 'at a high' : pct(v) + ' below peak'; }
-    });
+  function renderScan(sc) {
+    if (!sc || !sc.top) { $('scan').innerHTML = '<p class="empty">No scan yet.</p>'; return; }
+    $('scanNote').textContent = sc.buyable + ' of ~500 stocks passed the filters on ' + dlong(sc.date) + '. Score = recent 6-month gain divided by bumpiness.';
+    $('scan').innerHTML = '<table><thead><tr><th>#</th><th>Stock</th><th class="r">6-month gain</th><th class="r">Score</th></tr></thead><tbody>' +
+      sc.top.map(function (x, i) { return '<tr><td>' + (i + 1) + '</td><td>' + esc(x.t) + '</td><td class="r">' + pct(x.mom * 100, 0) + '</td><td class="r">' + x.score.toFixed(2) + '</td></tr>'; }).join('') + '</tbody></table>';
   }
 
-  /* ---------- tabs, hover on bars, resize ---------- */
-  function setTab(name) {
-    ['live', 'replay'].forEach(function (n) {
-      $(n).hidden = n !== name; $('t-' + n).setAttribute('aria-selected', String(n === name));
-    });
-    hideTip();
-    if (name === 'replay') drawReplayCharts(); else drawLiveChart();
-    try { history.replaceState(null, '', name === 'replay' ? '#replay' : '#live'); } catch (e) {}
-  }
-  $('t-live').onclick = function () { setTab('live'); };
-  $('t-replay').onclick = function () { setTab('replay'); };
+  /* ---------- hover on bars, resize ---------- */
   document.addEventListener('pointermove', function (ev) {
     var b = ev.target && ev.target.closest ? ev.target.closest('.bar') : null;
     if (b && b.getAttribute('data-tip')) { var r = b.getBoundingClientRect(); showTip(b.getAttribute('data-tip'), ev.clientX, r.top); }
     else if (!(ev.target.closest && ev.target.closest('.chart'))) hideTip();
   });
-  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { drawLiveChart(); drawReplayCharts(); }, 120); });
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { drawLiveChart(); }, 120); });
 
   /* ---------- data: read the bot's saved files from this same site ---------- */
   function fail(msg) { if (!state.live.hold) $('liveCards').innerHTML = '<p class="empty">' + esc(msg) + '</p>'; }
@@ -381,13 +314,10 @@ footer { color: var(--muted); font-size: 12px; }
   }
   function get(url) { return fetch(url + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
   function load() {
-    Promise.all([get('state_hold.json'), get('state_voltarget.json')]).then(function (r) {
-      state.live.hold = toLive(r[0]); state.live.vol = toLive(r[1]); renderLive();
+    Promise.all([get('state_hold.json'), get('state_picker.json')]).then(function (r) {
+      state.live.hold = toLive(r[0]); state.live.vol = toLive(r[1]); renderLive(); renderScan(r[1].scan);
     }).catch(function () { fail('No portfolio data yet. The first daily run has not finished.'); });
   }
-  var hash = (location.hash || '').replace('#', '');
-  if (hash === 'replay') setTab('replay');
-  get('replay.json').then(function (d) { state.replay = d; renderReplay(); }).catch(function () {});
   load();
   setInterval(load, 5 * 60 * 1000);
   document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });

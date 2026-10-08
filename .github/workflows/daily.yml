@@ -3,14 +3,14 @@ name: Daily paper trade and website
 # Runs every weekday at 21:30 UTC (about 5:30pm New York time in summer,
 # 4:30pm in winter), after the US stock market has closed, then updates the website.
 # You can also run it by hand from the Actions tab ("Run workflow").
-# It also republishes the website whenever index.html or replay.json changes.
+# It also republishes the website whenever index.html changes.
 on:
   schedule:
     - cron: "30 21 * * 1-5"
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [index.html, replay.json]
+    paths: [index.html]
 
 permissions:
   contents: write
@@ -33,15 +33,15 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: Run the voltarget bot (fake money)
-        run: python paper_trader.py daily --tickers $TICKERS --strategy voltarget --state state_voltarget.json
-      - name: Run the plain-hold bot (the benchmark to beat)
+      - name: Run the S&P 500 picker (fake money, holds 10 at a time)
+        run: python sp500_picker.py daily --state state_picker.json
+      - name: Run the buy-and-hold bot (the original 10 stocks)
         run: python paper_trader.py daily --tickers $TICKERS --strategy hold --state state_hold.json
       - name: Save the portfolios back to the repo
         run: |
           git config user.name "paper-trader bot"
           git config user.email "actions@users.noreply.github.com"
-          git add state_*.json
+          git add state_*.json sp500.txt
           git diff --cached --quiet || (git commit -m "Daily paper trade update" && git push)
 
   website:
@@ -58,7 +58,8 @@ jobs:
       - name: Collect the website files
         run: |
           mkdir site
-          cp index.html replay.json state_hold.json state_voltarget.json site/
+          cp index.html site/
+          cp state_hold.json state_picker.json site/ || true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
