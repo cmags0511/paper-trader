@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+paper_state.json
+paper_trades.csv
+paper_equity.csv
+backtest_results.csv
