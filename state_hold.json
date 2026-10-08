@@ -1,0 +1,94 @@
+{
+ "cash": 0.0,
+ "shares": {
+  "AAPL": 2.9702675026466183,
+  "AMZN": 3.847337443594086,
+  "COST": 1.061289466702043,
+  "GOOGL": 2.8530670470756063,
+  "GS": 1.1271288367286048,
+  "JPM": 3.0341648180774294,
+  "META": 1.3863664768056505,
+  "MSFT": 1.8876472016874533,
+  "NVDA": 4.211058217288702,
+  "XOM": 6.034806288285419
+ },
+ "last_date": "2026-10-07",
+ "trades": [
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "AAPL",
+   "shares": 2.9703,
+   "price": 336.67
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "AMZN",
+   "shares": 3.8473,
+   "price": 259.92
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "COST",
+   "shares": 1.0613,
+   "price": 942.25
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "GOOGL",
+   "shares": 2.8531,
+   "price": 350.5
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "GS",
+   "shares": 1.1271,
+   "price": 887.21
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "JPM",
+   "shares": 3.0342,
+   "price": 329.58
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "META",
+   "shares": 1.3864,
+   "price": 721.31
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "MSFT",
+   "shares": 1.8876,
+   "price": 529.76
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "NVDA",
+   "shares": 4.2111,
+   "price": 237.47
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "XOM",
+   "shares": 6.0348,
+   "price": 164.05
+  }
+ ],
+ "equity": [
+  [
+   "2026-10-07",
+   9990.01
+  ]
+ ]
+}
