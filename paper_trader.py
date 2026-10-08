@@ -158,6 +158,16 @@ def main():
         print("Saved paper_trades.csv and paper_equity.csv")
     else:  # daily
         state = json.load(open(args.state)) if os.path.exists(args.state) else new_state(args.cash)
+        # Yahoo shows today's row while the market is still open. Only use finished days.
+        try:
+            from datetime import datetime
+            from zoneinfo import ZoneInfo
+            now = datetime.now(ZoneInfo("America/New_York"))
+            if (not args.demo and prices.index[-1].date() == now.date()
+                    and now.hour * 60 + now.minute < 16 * 60 + 30):
+                prices, weights = prices.iloc[:-1], weights.iloc[:-1]
+        except Exception:
+            pass
         date, px, w = prices.index[-1], prices.iloc[-1], weights.iloc[-1]
         if state["last_date"] == str(date.date()):
             print(f"Already ran for {date.date()}. Run again after the next market close.")

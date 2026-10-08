@@ -1,18 +1,29 @@
-name: Daily paper trade
+name: Daily paper trade and website
 
 # Runs every weekday at 21:30 UTC (about 5:30pm New York time in summer,
-# 4:30pm in winter), after the US stock market has closed.
+# 4:30pm in winter), after the US stock market has closed, then updates the website.
 # You can also run it by hand from the Actions tab ("Run workflow").
+# It also republishes the website whenever index.html or replay.json changes.
 on:
   schedule:
     - cron: "30 21 * * 1-5"
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [index.html, replay.json]
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: paper-trader
+  cancel-in-progress: false
 
 jobs:
   paper-trade:
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     env:
       TICKERS: "AAPL MSFT NVDA AMZN GOOGL META JPM GS XOM COST"
@@ -32,3 +43,24 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add state_*.json
           git diff --cached --quiet || (git commit -m "Daily paper trade update" && git push)
+
+  website:
+    needs: paper-trade
+    if: ${{ !cancelled() && (needs.paper-trade.result == 'success' || needs.paper-trade.result == 'skipped') }}
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Collect the website files
+        run: |
+          mkdir site
+          cp index.html replay.json state_hold.json state_voltarget.json site/
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+      - id: deploy
+        uses: actions/deploy-pages@v4

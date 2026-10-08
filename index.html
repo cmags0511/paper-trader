@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paper Trader</title>
+<style>
+[hidden]{display:none!important}
+
+/* Layout: one calm column on a grey plane; summary first, then charts, then the ledger.
+   Blue = plain hold, orange = volatility rule, everywhere on the page. */
+:root {
+  --plane: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
+  --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10); --wash: #f0efec;
+  --s1: #2a78d6; --s2: #eb6834; --up: #006300; --down: #b32f2f;
+  --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --plane: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+    --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --wash: #262624;
+    --s1: #3987e5; --s2: #d95926; --up: #0ca30c; --down: #e66767; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --plane: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
+  --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --wash: #262624;
+  --s1: #3987e5; --s2: #d95926; --up: #0ca30c; --down: #e66767; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--plane); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.5; margin: 0; padding-inline: 16px; padding-block: 20px 40px; }
+main { max-width: 880px; margin-inline: auto; display: flex; flex-direction: column; gap: 16px; }
+h1 { font-size: 22px; line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 15px; margin: 0; font-weight: 650; }
+p { margin: 0; }
+header { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 8px 16px; }
+.sub { color: var(--ink2); margin-top: 2px; }
+.asof { color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.notice { background: var(--wash); border-radius: 6px; padding: 8px 12px; color: var(--ink2); font-size: 13px; }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--axis); }
+.tab { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--ink2); font: inherit; font-weight: 600; padding: 8px 12px; cursor: pointer; margin-bottom: -1px; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--ink); }
+.tab:hover { color: var(--ink); }
+:focus-visible { outline: 2px solid var(--s1); outline-offset: 2px; }
+section[hidden] { display: none; }
+.stack { display: flex; flex-direction: column; gap: 16px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; min-width: 0; }
+.card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.c1 { background: var(--s1); } .c2 { background: var(--s2); }
+.name { font-weight: 650; }
+.rule { color: var(--ink2); font-size: 12.5px; margin-bottom: 12px; }
+.big { font-size: 32px; line-height: 1.1; font-weight: 650; letter-spacing: -0.02em; }
+.delta { margin-top: 4px; font-size: 13px; font-variant-numeric: tabular-nums; }
+.delta.up { color: var(--up); } .delta.down { color: var(--down); } .delta.flat { color: var(--ink2); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px 16px; margin-top: 14px; }
+.fact dt { color: var(--muted); font-size: 12px; }
+.fact dd { margin: 0; font-weight: 600; font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin: 8px 0 4px; color: var(--ink2); font-size: 13px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.chart { position: relative; width: 100%; min-width: 0; touch-action: pan-y; }
+.chart svg { display: block; overflow: visible; }
+.chart text { fill: var(--muted); font-family: var(--sans); font-size: 11.5px; font-variant-numeric: tabular-nums; }
+.tip { position: absolute; pointer-events: none; background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 6px 10px; font-size: 12.5px; box-shadow: 0 2px 10px rgba(0,0,0,0.12); z-index: 5; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tip b { display: block; margin-bottom: 2px; }
+.tip i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+.empty { color: var(--ink2); padding: 24px 0; text-align: center; }
+.note { color: var(--ink2); font-size: 13px; margin-top: 8px; }
+.hrow { display: grid; grid-template-columns: 52px 1fr; gap: 8px; align-items: center; padding-block: 5px; border-top: 1px solid var(--grid); }
+.hrow:first-child { border-top: 0; }
+.tk { font-weight: 600; font-size: 13px; }
+.line { display: grid; grid-template-columns: 1fr 64px; gap: 8px; align-items: center; }
+.line + .line { margin-top: 2px; }
+.track { height: 10px; }
+.bar { height: 10px; border-radius: 0 4px 4px 0; min-width: 0; }
+.bar.b1 { background: var(--s1); } .bar.b2 { background: var(--s2); }
+.val { text-align: right; font-size: 12px; color: var(--ink2); font-variant-numeric: tabular-nums; }
+.scroll { overflow: auto; max-width: 100%; max-height: 340px; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th, td { text-align: left; padding: 6px 10px 6px 0; border-bottom: 1px solid var(--grid); white-space: nowrap; }
+th { color: var(--muted); font-weight: 600; font-size: 12px; position: sticky; top: 0; background: var(--surface); }
+td.r, th.r { text-align: right; }
+.sw { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
+details summary { cursor: pointer; color: var(--ink2); font-size: 13px; margin-top: 10px; }
+.read { display: flex; flex-direction: column; gap: 6px; color: var(--ink2); }
+.read strong { color: var(--ink); }
+footer { color: var(--muted); font-size: 12px; }
+@media (max-width: 480px) { .big { font-size: 28px; } }
+</style>
+</head>
+<body>
+
+<main>
+  <header>
+    <div>
+      <h1>Paper Trader</h1>
+      <p class="sub">Two practice portfolios, same 10 stocks, different rules.</p>
+    </div>
+    <div class="asof" id="asof"></div>
+  </header>
+  <p class="notice">Practice only. These portfolios use fake money and are not connected to any broker.</p>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" id="t-live" aria-selected="true" aria-controls="live">Live</button>
+    <button class="tab" role="tab" id="t-replay" aria-selected="false" aria-controls="replay">3-year replay</button>
+  </div>
+
+  <section id="live" class="stack" aria-labelledby="t-live">
+    <div class="cards" id="liveCards"><p class="empty">Loading portfolios…</p></div>
+    <div class="card">
+      <h2>Portfolio value since the first day</h2>
+      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
+      <div class="chart" id="liveChart"></div>
+      <p class="note" id="liveNote"></p>
+    </div>
+    <div class="card">
+      <h2>What each portfolio owns</h2>
+      <p class="note" style="margin-top:2px">Dollar value of each stock today.</p>
+      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
+      <div id="holdings"></div>
+    </div>
+    <div class="card">
+      <h2>Recent trades</h2>
+      <div class="scroll" id="trades"></div>
+    </div>
+  </section>
+
+  <section id="replay" class="stack" hidden aria-labelledby="t-replay">
+    <div class="cards" id="replayCards"></div>
+    <div class="card">
+      <h2>Growth of $10,000</h2>
+      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
+      <div class="chart" id="eqChart"></div>
+    </div>
+    <div class="card">
+      <h2>How far below its peak each portfolio sat</h2>
+      <div class="legend"><span><i class="dot c1"></i>Plain hold</span><span><i class="dot c2"></i>Volatility rule</span></div>
+      <div class="chart" id="ddChart"></div>
+      <p class="note">Deeper dips mean a bumpier ride. Zero means a new high.</p>
+    </div>
+    <div class="card read" id="readout"></div>
+    <div class="card">
+      <details>
+        <summary>Show the numbers behind the charts</summary>
+        <div class="scroll" id="replayTable"></div>
+      </details>
+    </div>
+  </section>
+
+  <footer>Live numbers update by themselves after each trading day's close. The replay uses today's 10 stocks, which flatters both rules. Not financial advice.</footer>
+</main>
+<div class="tip" id="tip" hidden></div>
+
+<script>
+(function () {
+  var NAMES = { hold: 'Plain hold', vol: 'Volatility rule' };
+  var RULES = { hold: 'Owns every stock equally and never sells.', vol: 'Owns less of a stock while its price is swinging.' };
+  var CLS = { hold: 'c1', vol: 'c2' };
+  var VAR = { hold: 'var(--s1)', vol: 'var(--s2)' };
+  var state = { live: {}, replay: null };
+  var $ = function (id) { return document.getElementById(id); };
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function money(n, d) { return (n < 0 ? '-' : '') + '$' + Math.abs(n).toLocaleString('en-US', { minimumFractionDigits: d || 0, maximumFractionDigits: d || 0 }); }
+  function pct(n, d) { return (n > 0 ? '+' : n < 0 ? '−' : '') + Math.abs(n).toFixed(d == null ? 1 : d) + '%'; }
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function dlong(d) { var p = d.split('-'); return MON[+p[1] - 1] + ' ' + (+p[2]) + ', ' + p[0]; }
+  function dshort(d) { var p = d.split('-'); return MON[+p[1] - 1] + " '" + p[0].slice(2); }
+
+  /* ---------- tooltip ---------- */
+  var tip = $('tip');
+  function showTip(html, x, y) {
+    tip.innerHTML = html; tip.hidden = false;
+    var w = tip.offsetWidth, h = tip.offsetHeight;
+    var left = x + 14; if (left + w > window.innerWidth - 8) left = x - w - 14; if (left < 8) left = 8;
+    var top = y - h - 12; if (top < 8) top = y + 16;
+    tip.style.position = 'fixed'; tip.style.left = left + 'px'; tip.style.top = top + 'px';
+  }
+  function hideTip() { tip.hidden = true; }
+
+  /* ---------- scales ---------- */
+  function niceTicks(lo, hi, n) {
+    var span = hi - lo || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw))), f = raw / mag;
+    var step = (f < 1.5 ? 1 : f < 3 ? 2 : f < 7 ? 5 : 10) * mag;
+    var a = Math.floor(lo / step) * step, b = Math.ceil(hi / step) * step, t = [];
+    for (var v = a; v <= b + step / 2; v += step) t.push(+v.toFixed(10));
+    return t;
+  }
+
+  /* ---------- line chart (SVG drawn at the container's real width) ---------- */
+  function lineChart(host, o) {
+    host.innerHTML = '';
+    var W = Math.max(280, host.clientWidth || 320), H = o.height || 300;
+    var m = { l: W < 460 ? 46 : 54, r: 14, t: 12, b: 28 };
+    var pw = W - m.l - m.r, ph = H - m.t - m.b;
+    var xs = o.x.map(function (d) { return Date.parse(d + 'T00:00:00Z'); });
+    var x0 = xs[0], x1 = xs[xs.length - 1];
+    if (x0 === x1) { x0 -= 3 * 864e5; x1 += 3 * 864e5; }
+    var lo = Infinity, hi = -Infinity;
+    o.series.forEach(function (s) { s.y.forEach(function (v) { lo = Math.min(lo, v); hi = Math.max(hi, v); }); });
+    if (o.include != null) { lo = Math.min(lo, o.include); hi = Math.max(hi, o.include); }
+    var pad = (hi - lo) * 0.08 || Math.abs(hi) * 0.02 || 1; lo -= pad; hi += pad;
+    if (o.max != null) hi = o.max;
+    var ticks = niceTicks(lo, hi, 5); lo = ticks[0]; hi = ticks[ticks.length - 1];
+    var X = function (t) { return m.l + (t - x0) / (x1 - x0) * pw; };
+    var Y = function (v) { return m.t + (1 - (v - lo) / (hi - lo)) * ph; };
+    var svg = '<svg width="' + W + '" height="' + H + '" viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + esc(o.label) + '">';
+    ticks.forEach(function (t) {
+      var y = Y(t);
+      svg += '<line x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + y + '" y2="' + y + '" stroke="' + (t === 0 && o.zeroAxis ? 'var(--axis)' : 'var(--grid)') + '" stroke-width="1"/>';
+      svg += '<text x="' + (m.l - 8) + '" y="' + (y + 4) + '" text-anchor="end">' + esc(o.yTick(t)) + '</text>';
+    });
+    if (o.include != null) {
+      var yr = Y(o.include);
+      svg += '<line x1="' + m.l + '" x2="' + (W - m.r) + '" y1="' + yr + '" y2="' + yr + '" stroke="var(--muted)" stroke-dasharray="4 4"/>';
+      svg += '<text x="' + (W - m.r) + '" y="' + (yr - 5) + '" text-anchor="end">' + esc(o.includeLabel || '') + '</text>';
+    }
+    var nx = Math.min(o.x.length, W < 460 ? 4 : 6), seen = {};
+    for (var k = 0; k < nx; k++) {
+      var i = nx === 1 ? 0 : Math.round(k * (o.x.length - 1) / (nx - 1));
+      if (seen[i]) continue; seen[i] = 1;
+      var tx = X(xs[i]), anchor = k === 0 && nx > 1 ? 'start' : (k === nx - 1 && nx > 1 ? 'end' : 'middle');
+      svg += '<text x="' + tx + '" y="' + (H - 8) + '" text-anchor="' + anchor + '">' + esc(o.xTick ? o.xTick(o.x[i]) : dshort(o.x[i])) + '</text>';
+    }
+    o.series.forEach(function (s) {
+      var d = s.y.map(function (v, i) { return (i ? 'L' : 'M') + X(xs[i]).toFixed(1) + ' ' + Y(v).toFixed(1); }).join('');
+      if (s.y.length > 1) svg += '<path d="' + d + '" fill="none" stroke="' + s.color + '" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>';
+      var ex = X(xs[xs.length - 1]), ey = Y(s.y[s.y.length - 1]);
+      svg += '<circle cx="' + ex + '" cy="' + ey + '" r="4.5" fill="' + s.color + '" stroke="var(--surface)" stroke-width="2"/>';
+    });
+    svg += '<g id="xh" visibility="hidden"><line y1="' + m.t + '" y2="' + (m.t + ph) + '" stroke="var(--muted)" stroke-width="1"/>';
+    o.series.forEach(function (s, j) { svg += '<circle data-j="' + j + '" r="4.5" fill="' + s.color + '" stroke="var(--surface)" stroke-width="2"/>'; });
+    svg += '</g><rect x="' + m.l + '" y="' + m.t + '" width="' + pw + '" height="' + ph + '" fill="transparent" id="hit"/></svg>';
+    host.innerHTML = svg;
+    var el = host.firstChild, xh = el.querySelector('#xh'), hit = el.querySelector('#hit');
+    function at(ev) {
+      var r = el.getBoundingClientRect(), px = ev.clientX - r.left, best = 0, bd = Infinity;
+      for (var i = 0; i < xs.length; i++) { var dd = Math.abs(X(xs[i]) - px); if (dd < bd) { bd = dd; best = i; } }
+      var cx = X(xs[best]);
+      xh.setAttribute('visibility', 'visible');
+      xh.querySelector('line').setAttribute('x1', cx); xh.querySelector('line').setAttribute('x2', cx);
+      var rows = '';
+      o.series.forEach(function (s, j) {
+        var c = xh.querySelector('circle[data-j="' + j + '"]'); c.setAttribute('cx', cx); c.setAttribute('cy', Y(s.y[best]));
+        rows += '<div><i style="background:' + s.color + '"></i>' + esc(s.name) + ': <b style="display:inline">' + esc(o.tipVal(s.y[best], s, best)) + '</b></div>';
+      });
+      showTip('<b>' + esc(dlong(o.x[best])) + '</b>' + rows, ev.clientX, r.top + m.t + ph / 2);
+    }
+    hit.addEventListener('pointermove', at); hit.addEventListener('pointerdown', at);
+    hit.addEventListener('pointerleave', function () { xh.setAttribute('visibility', 'hidden'); hideTip(); });
+  }
+
+  /* ---------- LIVE tab ---------- */
+  function liveValue(d) { return d.equity.length ? d.equity[d.equity.length - 1][1] : d.startCash; }
+  function renderLive() {
+    var keys = ['hold', 'vol'], docs = keys.map(function (k) { return state.live[k]; });
+    if (docs.some(function (d) { return !d; })) return;
+    var last = docs.reduce(function (a, d) { return d.lastDate > a ? d.lastDate : a; }, '');
+    $('asof').textContent = 'As of ' + dlong(last) + ' close';
+    $('liveCards').innerHTML = keys.map(function (k, i) {
+      var d = docs[i], v = liveValue(d), ch = v - d.startCash, cp = ch / d.startCash * 100;
+      var cls = Math.abs(ch) < 0.005 ? 'flat' : ch > 0 ? 'up' : 'down', arrow = cls === 'up' ? '▲ ' : cls === 'down' ? '▼ ' : '';
+      var invested = v ? (1 - d.cash / v) * 100 : 0;
+      return '<div class="card"><div class="card-head"><i class="dot ' + CLS[k] + '"></i><span class="name">' + NAMES[k] + '</span></div>' +
+        '<p class="rule">' + RULES[k] + '</p><div class="big">' + money(v, 2) + '</div>' +
+        '<div class="delta ' + cls + '">' + arrow + (ch >= 0 ? '+' : '−') + money(Math.abs(ch), 2) + ' (' + pct(cp, 2) + ') since the start</div>' +
+        '<dl class="facts"><div class="fact"><dt>Invested</dt><dd>' + invested.toFixed(0) + '%</dd></div>' +
+        '<div class="fact"><dt>Cash</dt><dd>' + money(d.cash, 2) + '</dd></div>' +
+        '<div class="fact"><dt>Days tracked</dt><dd>' + d.equity.length + '</dd></div>' +
+        '<div class="fact"><dt>Trades so far</dt><dd>' + d.tradeCount + '</dd></div></dl></div>';
+    }).join('');
+    drawLiveChart(); renderHoldings(keys, docs); renderTrades(keys, docs);
+  }
+  function drawLiveChart() {
+    var h = state.live.hold, v = state.live.vol; if (!h || !v) return;
+    var dates = h.equity.map(function (r) { return r[0]; });
+    lineChart($('liveChart'), {
+      x: dates, height: 260, include: h.startCash, includeLabel: 'Start ' + money(h.startCash),
+      label: 'Portfolio value by day for the plain hold and volatility rule portfolios',
+      series: [{ name: NAMES.hold, color: VAR.hold, y: h.equity.map(function (r) { return r[1]; }) },
+               { name: NAMES.vol, color: VAR.vol, y: v.equity.map(function (r) { return r[1]; }) }],
+      yTick: function (t) { return money(t); }, tipVal: function (val) { return money(val, 2); }
+    });
+    $('liveNote').textContent = dates.length < 3
+      ? 'Day ' + dates.length + ' of tracking. The lines grow with each trading day. The small dip below the start is the 0.1% cost of the first trades.'
+      : 'The dashed line is the starting $10,000.';
+  }
+  function renderHoldings(keys, docs) {
+    var by = {}, tick = {};
+    keys.forEach(function (k, i) { by[k] = {}; docs[i].holdings.forEach(function (x) { by[k][x.t] = x; tick[x.t] = 1; }); });
+    var tk = Object.keys(tick).sort(function (a, b) { return ((by.hold[b] || {}).value || 0) - ((by.hold[a] || {}).value || 0); });
+    var max = 1; tk.forEach(function (t) { keys.forEach(function (k) { max = Math.max(max, (by[k][t] || {}).value || 0); }); });
+    if (!tk.length) { $('holdings').innerHTML = '<p class="empty">No holdings yet.</p>'; return; }
+    $('holdings').innerHTML = tk.map(function (t) {
+      return '<div class="hrow"><span class="tk">' + esc(t) + '</span><div>' + keys.map(function (k, i) {
+        var x = by[k][t] || { value: 0, shares: 0 }, total = liveValue(docs[i]);
+        var tipHtml = '<b>' + esc(t) + ' · ' + NAMES[k] + '</b>' + money(x.value, 2) + ' (' + (x.value / total * 100).toFixed(1) + '% of portfolio)<br>' + esc(x.shares) + ' shares';
+        return '<div class="line"><div class="track"><div class="bar b' + (i + 1) + '" data-tip="' + esc(tipHtml) + '" style="width:' + (x.value / max * 100).toFixed(1) + '%"></div></div><span class="val">' + money(x.value) + '</span></div>';
+      }).join('') + '</div></div>';
+    }).join('');
+  }
+  function renderTrades(keys, docs) {
+    var rows = [];
+    keys.forEach(function (k, i) { docs[i].trades.forEach(function (t) { rows.push({ k: k, t: t }); }); });
+    rows.sort(function (a, b) { return a.t.date < b.t.date ? 1 : a.t.date > b.t.date ? -1 : (a.t.ticker < b.t.ticker ? -1 : 1); });
+    if (!rows.length) { $('trades').innerHTML = '<p class="empty">No trades yet.</p>'; return; }
+    $('trades').innerHTML = '<table><thead><tr><th>Date</th><th>Portfolio</th><th>Action</th><th>Stock</th><th class="r">Shares</th><th class="r">Price</th></tr></thead><tbody>' +
+      rows.slice(0, 40).map(function (r) {
+        return '<tr><td>' + esc(r.t.date) + '</td><td><i class="sw ' + CLS[r.k] + '"></i>' + NAMES[r.k] + '</td><td>' + (r.t.side === 'BUY' ? 'Bought' : 'Sold') + '</td><td>' + esc(r.t.ticker) + '</td><td class="r">' + esc(r.t.shares) + '</td><td class="r">' + money(+r.t.price, 2) + '</td></tr>';
+      }).join('') + '</tbody></table>';
+  }
+
+  /* ---------- REPLAY tab ---------- */
+  function drawdown(arr) { var pk = -Infinity; return arr.map(function (v) { pk = Math.max(pk, v); return (v / pk - 1) * 100; }); }
+  function renderReplay() {
+    var r = state.replay; if (!r) return;
+    var keys = ['hold', 'vol'];
+    $('replayCards').innerHTML = keys.map(function (k) {
+      var s = r.stats[k], end = r[k][r[k].length - 1];
+      return '<div class="card"><div class="card-head"><i class="dot ' + CLS[k] + '"></i><span class="name">' + NAMES[k] + '</span></div>' +
+        '<p class="rule">' + RULES[k] + '</p><div class="big">' + pct(s.ret, 0) + '</div>' +
+        '<div class="delta flat">$10,000 became ' + money(end) + '</div>' +
+        '<dl class="facts"><div class="fact"><dt>Worst dip</dt><dd>' + pct(s.dd) + '</dd></div>' +
+        '<div class="fact"><dt>Return per unit of risk</dt><dd>' + s.sharpe.toFixed(2) + '</dd></div>' +
+        '<div class="fact"><dt>Trades</dt><dd>' + s.trades + '</dd></div></dl></div>';
+    }).join('');
+    drawReplayCharts();
+    var h = r.stats.hold, v = r.stats.vol;
+    $('readout').innerHTML = '<h2>What this says</h2>' +
+      '<p><strong>' + (h.ret > v.ret ? 'Holding made more money:' : 'The volatility rule made more money:') + '</strong> ' + pct(h.ret, 0) + ' for plain hold against ' + pct(v.ret, 0) + ' for the volatility rule.</p>' +
+      '<p><strong>' + (v.dd > h.dd ? 'The volatility rule had a smoother ride:' : 'Plain hold had a smoother ride:') + '</strong> its worst dip was ' + pct(Math.max(v.dd, h.dd)) + ' against ' + pct(Math.min(v.dd, h.dd)) + '.</p>' +
+      '<p>Return per unit of risk was ' + h.sharpe.toFixed(2) + ' for plain hold and ' + v.sharpe.toFixed(2) + ' for the volatility rule, so the two came out close once the bumps are counted.</p>' +
+      '<p>The replay covers ' + dlong(r.dates[0]) + ' to ' + dlong(r.dates[r.dates.length - 1]) + ', charging 0.1% on every trade. These stocks rose a lot over that stretch, which helps holding.</p>';
+    $('replayTable').innerHTML = '<table><thead><tr><th>Date</th><th class="r">Plain hold</th><th class="r">Volatility rule</th></tr></thead><tbody>' +
+      r.dates.map(function (d, i) { return '<tr><td>' + d + '</td><td class="r">' + money(r.hold[i]) + '</td><td class="r">' + money(r.vol[i]) + '</td></tr>'; }).join('') + '</tbody></table>';
+  }
+  function drawReplayCharts() {
+    var r = state.replay; if (!r || $('replay').hidden) return;
+    lineChart($('eqChart'), {
+      x: r.dates, height: 300, include: r.startCash, includeLabel: 'Start ' + money(r.startCash),
+      label: 'Growth of ten thousand dollars under the plain hold and volatility rule portfolios',
+      series: [{ name: NAMES.hold, color: VAR.hold, y: r.hold }, { name: NAMES.vol, color: VAR.vol, y: r.vol }],
+      yTick: function (t) { return t >= 1000 ? '$' + (t / 1000) + 'k' : money(t); },
+      tipVal: function (v) { return money(v) + ' (' + pct((v / r.startCash - 1) * 100, 0) + ')'; }
+    });
+    lineChart($('ddChart'), {
+      x: r.dates, height: 220, max: 0, zeroAxis: true,
+      label: 'Percent below the previous peak for each portfolio',
+      series: [{ name: NAMES.hold, color: VAR.hold, y: drawdown(r.hold) }, { name: NAMES.vol, color: VAR.vol, y: drawdown(r.vol) }],
+      yTick: function (t) { return t === 0 ? '0%' : '−' + Math.abs(t) + '%'; },
+      tipVal: function (v) { return v === 0 ? 'at a high' : pct(v) + ' below peak'; }
+    });
+  }
+
+  /* ---------- tabs, hover on bars, resize ---------- */
+  function setTab(name) {
+    ['live', 'replay'].forEach(function (n) {
+      $(n).hidden = n !== name; $('t-' + n).setAttribute('aria-selected', String(n === name));
+    });
+    hideTip();
+    if (name === 'replay') drawReplayCharts(); else drawLiveChart();
+    try { history.replaceState(null, '', name === 'replay' ? '#replay' : '#live'); } catch (e) {}
+  }
+  $('t-live').onclick = function () { setTab('live'); };
+  $('t-replay').onclick = function () { setTab('replay'); };
+  document.addEventListener('pointermove', function (ev) {
+    var b = ev.target && ev.target.closest ? ev.target.closest('.bar') : null;
+    if (b && b.getAttribute('data-tip')) { var r = b.getBoundingClientRect(); showTip(b.getAttribute('data-tip'), ev.clientX, r.top); }
+    else if (!(ev.target.closest && ev.target.closest('.chart'))) hideTip();
+  });
+  var rt; window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { drawLiveChart(); drawReplayCharts(); }, 120); });
+
+  /* ---------- data: read the bot's saved files from this same site ---------- */
+  function fail(msg) { if (!state.live.hold) $('liveCards').innerHTML = '<p class="empty">' + esc(msg) + '</p>'; }
+  function toLive(s) {
+    var tp = {}; s.trades.forEach(function (t) { tp[t.ticker] = t.price; });
+    var px = Object.assign({}, tp, s.prices || {}), hold = [];
+    Object.keys(s.shares).forEach(function (t) { var sh = s.shares[t]; if (sh > 1e-9 && px[t]) hold.push({ t: t, shares: Math.round(sh * 1e4) / 1e4, value: Math.round(sh * px[t] * 100) / 100 }); });
+    hold.sort(function (a, b) { return b.value - a.value; });
+    return { startCash: 10000, cash: s.cash, lastDate: s.last_date, equity: s.equity, holdings: hold, trades: s.trades.slice(-40), tradeCount: s.trades.length };
+  }
+  function get(url) { return fetch(url + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
+  function load() {
+    Promise.all([get('state_hold.json'), get('state_voltarget.json')]).then(function (r) {
+      state.live.hold = toLive(r[0]); state.live.vol = toLive(r[1]); renderLive();
+    }).catch(function () { fail('No portfolio data yet. The first daily run has not finished.'); });
+  }
+  var hash = (location.hash || '').replace('#', '');
+  if (hash === 'replay') setTab('replay');
+  get('replay.json').then(function (d) { state.replay = d; renderReplay(); }).catch(function () {});
+  load();
+  setInterval(load, 5 * 60 * 1000);
+  document.addEventListener('visibilitychange', function () { if (!document.hidden) load(); });
+})();
+</script>
+</body>
+</html>

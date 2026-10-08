@@ -56,3 +56,12 @@ Prices come from Yahoo Finance through the `yfinance` package, so they can be de
 The file `.github/workflows/daily.yml` tells GitHub to run two practice portfolios every weekday after the market closes: one using `voltarget`, one plain `hold` as the benchmark. Each starts with $10,000 of fake cash. Their holdings are saved in `state_voltarget.json` and `state_hold.json`, which update in this repo after each run.
 
 To start it: open the repo on github.com, click the **Actions** tab, enable workflows if asked, pick **Daily paper trade**, and click **Run workflow** to try it right away. To change the stocks, edit the `TICKERS` line in the workflow file.
+
+## The dashboard website
+
+`index.html` is a dashboard that shows both portfolios with charts. It reads the saved `state_` files and refreshes itself every few minutes, and the daily run republishes it after each update.
+
+One-time setup on github.com:
+1. Settings, then **Pages**, then under "Build and deployment" set **Source** to **GitHub Actions**.
+2. GitHub Pages is free for **public** repos only (private repos need a paid plan). The portfolios here are fake money, so making the repo public is harmless. Settings, then **General**, then the "Danger Zone" at the bottom, then **Change visibility**.
+3. Go to the Actions tab and run **Daily paper trade and website** once. The link to your site appears at the end of the run.
