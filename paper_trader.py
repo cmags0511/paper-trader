@@ -108,6 +108,7 @@ def rebalance(state, date, px, weights):
         state["trades"].append({"date": str(date.date()), "side": side, "ticker": t,
                                 "shares": round(qty, 4), "price": round(float(px[t]), 2)})
     state["last_date"] = str(date.date())
+    state["prices"] = {t: round(float(px[t]), 4) for t in px.index}
     state["equity"].append([str(date.date()), round(float(equity_of(state, px)), 2)])
 
 
