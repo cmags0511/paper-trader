@@ -256,7 +256,7 @@ footer { color: var(--muted); font-size: 12px; }
       x: dates, height: 260, include: h.startCash, includeLabel: 'Start ' + money(h.startCash),
       label: 'Portfolio value by day for the buy-and-hold and S&P 500 picker portfolios',
       series: [{ name: NAMES.hold, color: VAR.hold, y: h.equity.map(function (r) { return r[1]; }) },
-               { name: NAMES.vol, color: VAR.vol, y: v.equity.map(function (r) { return r[1]; }) }],
+               { name: NAMES.vol, color: VAR.vol, y: v.equity.length === h.equity.length ? v.equity.map(function (r) { return r[1]; }) : h.equity.map(function () { return null; }) }],
       yTick: function (t) { return money(t); }, tipVal: function (val) { return money(val, 2); }
     });
     $('liveNote').textContent = dates.length < 3
@@ -314,8 +314,10 @@ footer { color: var(--muted); font-size: 12px; }
   }
   function get(url) { return fetch(url + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
   function load() {
-    Promise.all([get('state_hold.json'), get('state_picker.json')]).then(function (r) {
+    var empty = { cash: 10000, shares: {}, trades: [], equity: [], prices: {}, last_date: '' };
+    Promise.all([get('state_hold.json').catch(function () { return empty; }), get('state_picker.json').catch(function () { return empty; })]).then(function (r) {
       state.live.hold = toLive(r[0]); state.live.vol = toLive(r[1]); renderLive(); renderScan(r[1].scan);
+      if (!r[1].equity.length) $('scanNote').textContent = 'The picker has not run yet. It starts after the first daily run (Actions tab, Run workflow).';
     }).catch(function () { fail('No portfolio data yet. The first daily run has not finished.'); });
   }
   load();
