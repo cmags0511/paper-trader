@@ -1,0 +1,189 @@
+{
+ "cash": 0.0,
+ "shares": {
+  "TECH": 13.787398549983738,
+  "HUM": 2.5220044270536697,
+  "DELL": 1.7272349765926136,
+  "NTAP": 4.241421647701962,
+  "MPC": 2.261113322296421,
+  "FTNT": 5.283178394173671,
+  "CNC": 15.386983118481954,
+  "HPE": 13.871550156736495,
+  "PSX": 3.6816140857692043,
+  "MU": 0.9099356525827116
+ },
+ "last_date": "2026-10-07",
+ "trades": [
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "TECH",
+   "shares": 13.7874,
+   "price": 72.53,
+   "why": "rank #1 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "HUM",
+   "shares": 2.522,
+   "price": 396.51,
+   "why": "rank #2 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "DELL",
+   "shares": 1.7272,
+   "price": 578.96,
+   "why": "rank #3 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "NTAP",
+   "shares": 4.2414,
+   "price": 235.77,
+   "why": "rank #4 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "MPC",
+   "shares": 2.2611,
+   "price": 442.26,
+   "why": "rank #5 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "FTNT",
+   "shares": 5.2832,
+   "price": 189.28,
+   "why": "rank #6 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "CNC",
+   "shares": 15.387,
+   "price": 64.99,
+   "why": "rank #7 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "HPE",
+   "shares": 13.8716,
+   "price": 72.09,
+   "why": "rank #8 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "PSX",
+   "shares": 3.6816,
+   "price": 271.62,
+   "why": "rank #9 of 156 buyable stocks"
+  },
+  {
+   "date": "2026-10-07",
+   "side": "BUY",
+   "ticker": "MU",
+   "shares": 0.9099,
+   "price": 1088.0,
+   "why": "rank #10 of 156 buyable stocks"
+  }
+ ],
+ "equity": [
+  [
+   "2026-10-07",
+   9990.01
+  ]
+ ],
+ "peaks": {
+  "TECH": 72.52999877929688,
+  "HUM": 396.510009765625,
+  "DELL": 578.9600219726562,
+  "NTAP": 235.77000427246094,
+  "MPC": 442.260009765625,
+  "FTNT": 189.27999877929688,
+  "CNC": 64.98999786376953,
+  "HPE": 72.08999633789062,
+  "PSX": 271.6199951171875,
+  "MU": 1088.0
+ },
+ "prices": {
+  "TECH": 72.52999877929688,
+  "HUM": 396.510009765625,
+  "DELL": 578.9600219726562,
+  "NTAP": 235.77000427246094,
+  "MPC": 442.260009765625,
+  "FTNT": 189.27999877929688,
+  "CNC": 64.98999786376953,
+  "HPE": 72.08999633789062,
+  "PSX": 271.6199951171875,
+  "MU": 1088.0,
+  "VLO": 424.1000061035156,
+  "AMD": 645.8599853515625,
+  "PANW": 405.57000732421875,
+  "MET": 95.77999877929688,
+  "CPAY": 402.42999267578125
+ },
+ "scan": {
+  "date": "2026-10-07",
+  "buyable": 156,
+  "top": [
+   {
+    "t": "TECH",
+    "score": 3.14,
+    "mom": 0.314
+   },
+   {
+    "t": "HUM",
+    "score": 2.99,
+    "mom": 1.037
+   },
+   {
+    "t": "DELL",
+    "score": 2.37,
+    "mom": 1.892
+   },
+   {
+    "t": "NTAP",
+    "score": 2.2,
+    "mom": 0.907
+   },
+   {
+    "t": "MPC",
+    "score": 2.08,
+    "mom": 0.726
+   },
+   {
+    "t": "FTNT",
+    "score": 2.04,
+    "mom": 0.886
+   },
+   {
+    "t": "CNC",
+    "score": 2.03,
+    "mom": 0.732
+   },
+   {
+    "t": "HPE",
+    "score": 1.96,
+    "mom": 1.25
+   },
+   {
+    "t": "PSX",
+    "score": 1.95,
+    "mom": 0.562
+   },
+   {
+    "t": "MU",
+    "score": 1.93,
+    "mom": 1.46
+   }
+  ]
+ }
+}
