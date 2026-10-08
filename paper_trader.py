@@ -139,6 +139,7 @@ def main():
     ap.add_argument("--years", type=float, default=3)
     ap.add_argument("--cash", type=float, default=10000)
     ap.add_argument("--demo", action="store_true", help="use made-up prices, no internet")
+    ap.add_argument("--state", default=STATE_FILE, help="file that remembers the daily portfolio")
     args = ap.parse_args()
 
     # 200 extra days so the 200-day averages are ready on day one
@@ -155,7 +156,7 @@ def main():
         eq.to_csv("paper_equity.csv", header=["equity"])
         print("Saved paper_trades.csv and paper_equity.csv")
     else:  # daily
-        state = json.load(open(STATE_FILE)) if os.path.exists(STATE_FILE) else new_state(args.cash)
+        state = json.load(open(args.state)) if os.path.exists(args.state) else new_state(args.cash)
         date, px, w = prices.index[-1], prices.iloc[-1], weights.iloc[-1]
         if state["last_date"] == str(date.date()):
             print(f"Already ran for {date.date()}. Run again after the next market close.")
@@ -167,7 +168,7 @@ def main():
                 print(f"  {tr['side']:<4} {tr['shares']:>10} {tr['ticker']} @ ${tr['price']}")
             if len(state["trades"]) == before:
                 print("  none today")
-            json.dump(state, open(STATE_FILE, "w"), indent=1)
+            json.dump(state, open(args.state, "w"), indent=1)
         eqv = equity_of(state, px)
         print(f"Paper portfolio value: ${eqv:,.2f}  (cash ${state['cash']:,.2f})")
         for t, sh in state["shares"].items():

@@ -50,3 +50,9 @@ In tests on 484 S&P 500 stocks over about 3 years, none of these rules beat simp
 ## Limits
 
 Prices come from Yahoo Finance through the `yfinance` package, so they can be delayed or occasionally wrong. Results ignore taxes. Past results do not predict future results. This is not financial advice.
+
+## Running automatically every day (real prices)
+
+The file `.github/workflows/daily.yml` tells GitHub to run two practice portfolios every weekday after the market closes: one using `voltarget`, one plain `hold` as the benchmark. Each starts with $10,000 of fake cash. Their holdings are saved in `state_voltarget.json` and `state_hold.json`, which update in this repo after each run.
+
+To start it: open the repo on github.com, click the **Actions** tab, enable workflows if asked, pick **Daily paper trade**, and click **Run workflow** to try it right away. To change the stocks, edit the `TICKERS` line in the workflow file.

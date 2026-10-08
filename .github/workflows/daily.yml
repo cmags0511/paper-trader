@@ -1,0 +1,34 @@
+name: Daily paper trade
+
+# Runs every weekday at 21:30 UTC (about 5:30pm New York time in summer,
+# 4:30pm in winter), after the US stock market has closed.
+# You can also run it by hand from the Actions tab ("Run workflow").
+on:
+  schedule:
+    - cron: "30 21 * * 1-5"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  paper-trade:
+    runs-on: ubuntu-latest
+    env:
+      TICKERS: "AAPL MSFT NVDA AMZN GOOGL META JPM GS XOM COST"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Run the voltarget bot (fake money)
+        run: python paper_trader.py daily --tickers $TICKERS --strategy voltarget --state state_voltarget.json
+      - name: Run the plain-hold bot (the benchmark to beat)
+        run: python paper_trader.py daily --tickers $TICKERS --strategy hold --state state_hold.json
+      - name: Save the portfolios back to the repo
+        run: |
+          git config user.name "paper-trader bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add state_*.json
+          git diff --cached --quiet || (git commit -m "Daily paper trade update" && git push)
