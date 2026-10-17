@@ -24,7 +24,7 @@ def load(path):
 
 
 def main():
-    pick, hold = load("state_picker.json"), load("state_hold.json")
+    pick, hold, pickb = load("state_picker.json"), load("state_hold.json"), load("state_pickerb.json")
     if not pick:
         print("No picker data yet.")
         return
@@ -57,7 +57,8 @@ def main():
     rp, rh = ret(pick), ret(hold)
     wins = sum(1 for c in closed if c["pnl_pct"] > 0)
 
-    lines = [f"The picker is {rp:+.1f}% since the start; the original 10 are {rh:+.1f}%."]
+    lines = [f"Since the start: picker A {rp:+.1f}%, original 10 {rh:+.1f}%"
+             + (f", picker B {ret(pickb):+.1f}%." if pickb and pickb["equity"] else ".")]
     if closed:
         lines.append(f"{len(closed)} trades closed so far, {wins} made money.")
     for r in rules:

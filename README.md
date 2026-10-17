@@ -75,3 +75,8 @@ One-time setup on github.com:
 1. Settings, then **Pages**, then under "Build and deployment" set **Source** to **GitHub Actions**.
 2. GitHub Pages is free for **public** repos only. The portfolios are fake money, so public is harmless. Settings, **General**, bottom, **Change visibility**.
 3. Run **Daily paper trade and website** once. The link to your site appears at the end of the run.
+
+## Daily review and research
+
+- `review.py` runs after each daily trade and writes `review.json`: which closed trades made or lost money, which sell rule is helping, and stocks bought back right after being sold. It only reports. It waits for 30 closed trades before suggesting any rule change.
+- `research.py` tests many rule versions on about 5 years of past prices, scored on two separate halves of the period (`research_results.json`, `research_log.txt`). Picker B (`state_pickerb.json`) is the leading idea from that test, running as a separate portfolio so it is proven on new days, not just old ones. The past-price test uses today's S&P 500 list, which flatters stock pickers.

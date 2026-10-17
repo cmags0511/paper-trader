@@ -33,8 +33,10 @@ jobs:
         with:
           python-version: "3.12"
       - run: pip install -r requirements.txt
-      - name: Run the S&P 500 picker (fake money, holds 10 at a time)
+      - name: Run picker A (fake money, holds 10 at a time)
         run: python sp500_picker.py daily --state state_picker.json
+      - name: Run picker B (momentum version, fake money)
+        run: python sp500_picker.py daily --state state_pickerb.json --rank plain --ma 200 --stop 0.25
       - name: Run the buy-and-hold bot (the original 10 stocks)
         run: python paper_trader.py daily --tickers $TICKERS --strategy hold --state state_hold.json
       - name: Review the picker's trades (report only)
@@ -61,7 +63,7 @@ jobs:
         run: |
           mkdir site
           cp index.html site/
-          cp state_hold.json state_picker.json review.json site/ || true
+          cp state_hold.json state_picker.json state_pickerb.json review.json site/ || true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site

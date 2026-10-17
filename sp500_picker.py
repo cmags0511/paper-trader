@@ -38,6 +38,8 @@ MIN_PRICE = 10.0
 MIN_DOLLAR_VOL = 20e6
 BUY_POOL = 20
 KEEP_RANK = 40
+MA_DAYS = 100         # "trend" average length
+RANK_MODE = "risk"    # "risk": gain / bumpiness   "plain": gain only
 LIST_FILE = "sp500.txt"
 STATE_FILE = "state_picker.json"
 
@@ -102,7 +104,7 @@ def demo_data(n=120, days=700):
 
 # ---------- ranking ----------
 def indicators(close, vol):
-    ma100 = close.rolling(100).mean()
+    ma100 = close.rolling(MA_DAYS).mean()
     mom = close.shift(21) / close.shift(126) - 1
     risk = close.pct_change().rolling(60).std() * np.sqrt(252)
     dvol = (close * vol).rolling(20).mean()
@@ -113,7 +115,8 @@ def scan(i, close, ma100, mom, risk, dvol):
     """Ranked list of buyable stocks on day i (best first)."""
     px = close.iloc[i]
     ok = (px > MIN_PRICE) & (px > ma100.iloc[i]) & (dvol.iloc[i] > MIN_DOLLAR_VOL) & (mom.iloc[i] > 0)
-    score = (mom.iloc[i] / risk.iloc[i].clip(lower=0.1))[ok].dropna().sort_values(ascending=False)
+    raw = mom.iloc[i] if RANK_MODE == "plain" else mom.iloc[i] / risk.iloc[i].clip(lower=0.1)
+    score = raw[ok].dropna().sort_values(ascending=False)
     return list(score.index), score
 
 
@@ -140,9 +143,9 @@ def step(state, date, i, close, ind):
         state["peaks"][t] = max(state["peaks"].get(t, p), float(p))
         why = None
         if p < state["peaks"][t] * (1 - STOP):
-            why = "fell 15% from its high"
+            why = f"fell {STOP:.0%} from its high"
         elif p < ma100[t].iloc[i]:
-            why = "dropped below its 100-day average"
+            why = f"dropped below its {MA_DAYS}-day average"
         elif rank.get(t, 999) > KEEP_RANK:
             why = "no longer ranks in the top 40"
         if why:
@@ -191,7 +194,12 @@ def main():
     ap.add_argument("--cash", type=float, default=10000)
     ap.add_argument("--years", type=float, default=2)
     ap.add_argument("--demo", action="store_true")
+    ap.add_argument("--ma", type=int, default=100, help="trend average length in days")
+    ap.add_argument("--rank", choices=["risk", "plain"], default="risk")
+    ap.add_argument("--stop", type=float, default=0.15, help="sell after this fall from the high")
     a = ap.parse_args()
+    global MA_DAYS, RANK_MODE, STOP
+    MA_DAYS, RANK_MODE, STOP = a.ma, a.rank, a.stop
 
     close, vol = demo_data() if a.demo else download(get_sp500(), a.years + 1)
     ind = indicators(close, vol)

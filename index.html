@@ -12,20 +12,20 @@
 :root {
   --plane: #f9f9f7; --surface: #fcfcfb; --ink: #0b0b0b; --ink2: #52514e; --muted: #898781;
   --grid: #e1e0d9; --axis: #c3c2b7; --border: rgba(11,11,11,0.10); --wash: #f0efec;
-  --s1: #2a78d6; --s2: #eb6834; --up: #006300; --down: #b32f2f;
+  --s1: #2a78d6; --s2: #eb6834; --s3: #1baf7a; --up: #006300; --down: #b32f2f;
   --sans: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --plane: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
     --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --wash: #262624;
-    --s1: #3987e5; --s2: #d95926; --up: #0ca30c; --down: #e66767; color-scheme: dark;
+    --s1: #3987e5; --s2: #d95926; --s3: #199e70; --up: #0ca30c; --down: #e66767; color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --plane: #0d0d0d; --surface: #1a1a19; --ink: #ffffff; --ink2: #c3c2b7; --muted: #898781;
   --grid: #2c2c2a; --axis: #383835; --border: rgba(255,255,255,0.10); --wash: #262624;
-  --s1: #3987e5; --s2: #d95926; --up: #0ca30c; --down: #e66767; color-scheme: dark;
+  --s1: #3987e5; --s2: #d95926; --s3: #199e70; --up: #0ca30c; --down: #e66767; color-scheme: dark;
 }
 * { box-sizing: border-box; }
 body { background: var(--plane); color: var(--ink); font-family: var(--sans); font-size: 14px; line-height: 1.5; margin: 0; padding-inline: 16px; padding-block: 20px 40px; }
@@ -48,7 +48,7 @@ section[hidden] { display: none; }
 .card { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px; min-width: 0; }
 .card-head { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
 .dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
-.c1 { background: var(--s1); } .c2 { background: var(--s2); }
+.c1 { background: var(--s1); } .c2 { background: var(--s2); } .c3 { background: var(--s3); }
 .name { font-weight: 650; }
 .rule { color: var(--ink2); font-size: 12.5px; margin-bottom: 12px; }
 .big { font-size: 32px; line-height: 1.1; font-weight: 650; letter-spacing: -0.02em; }
@@ -74,7 +74,7 @@ section[hidden] { display: none; }
 .line + .line { margin-top: 2px; }
 .track { height: 10px; }
 .bar { height: 10px; border-radius: 0 4px 4px 0; min-width: 0; }
-.bar.b1 { background: var(--s1); } .bar.b2 { background: var(--s2); }
+.bar.b1 { background: var(--s1); } .bar.b2 { background: var(--s2); } .bar.b3 { background: var(--s3); }
 .val { text-align: right; font-size: 12px; color: var(--ink2); font-variant-numeric: tabular-nums; }
 .scroll { overflow: auto; max-width: 100%; max-height: 340px; }
 table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
@@ -105,14 +105,14 @@ footer { color: var(--muted); font-size: 12px; }
     <div class="cards" id="liveCards"><p class="empty">Loading portfolios…</p></div>
     <div class="card">
       <h2>Portfolio value since the first day</h2>
-      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>S&amp;P 500 picker</span></div>
+      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>Picker A (steady)</span><span><i class="dot c3"></i>Picker B (momentum)</span></div>
       <div class="chart" id="liveChart"></div>
       <p class="note" id="liveNote"></p>
     </div>
     <div class="card">
       <h2>What each portfolio owns</h2>
       <p class="note" style="margin-top:2px">Dollar value of each stock today.</p>
-      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>S&amp;P 500 picker</span></div>
+      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>Picker A (steady)</span><span><i class="dot c3"></i>Picker B (momentum)</span></div>
       <div id="holdings"></div>
     </div>
     <div class="card">
@@ -136,10 +136,10 @@ footer { color: var(--muted); font-size: 12px; }
 
 <script>
 (function () {
-  var NAMES = { hold: 'Original 10 (buy and hold)', vol: 'S&P 500 picker' };
-  var RULES = { hold: 'Bought Apple, Microsoft, Nvidia and 7 others once, and never sells.', vol: 'Scans all ~500 S&P 500 stocks daily and holds the best 10, selling ones that turn bad.' };
-  var CLS = { hold: 'c1', vol: 'c2' };
-  var VAR = { hold: 'var(--s1)', vol: 'var(--s2)' };
+  var NAMES = { hold: 'Original 10 (buy and hold)', vol: 'Picker A (steady)', v2: 'Picker B (momentum)' };
+  var RULES = { hold: 'Bought Apple, Microsoft, Nvidia and 7 others once, and never sells.', vol: 'Scans all ~500 S&P 500 stocks daily and holds the 10 steadiest risers, selling ones that turn bad.', v2: 'Same scan, but holds the 10 biggest 6-month winners and uses a slower 200-day trend rule. Higher risk. Added Oct 17 after past-price tests.' };
+  var CLS = { hold: 'c1', vol: 'c2', v2: 'c3' };
+  var VAR = { hold: 'var(--s1)', vol: 'var(--s2)', v2: 'var(--s3)' };
   var state = { live: {}, replay: null };
   var $ = function (id) { return document.getElementById(id); };
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
@@ -235,7 +235,7 @@ footer { color: var(--muted); font-size: 12px; }
   /* ---------- LIVE tab ---------- */
   function liveValue(d) { return d.equity.length ? d.equity[d.equity.length - 1][1] : d.startCash; }
   function renderLive() {
-    var keys = ['hold', 'vol'], docs = keys.map(function (k) { return state.live[k]; });
+    var keys = ['hold', 'vol', 'v2'], docs = keys.map(function (k) { return state.live[k]; });
     if (docs.some(function (d) { return !d; })) return;
     var last = docs.reduce(function (a, d) { return d.lastDate > a ? d.lastDate : a; }, '');
     $('asof').textContent = 'As of ' + dlong(last) + ' close';
@@ -254,13 +254,15 @@ footer { color: var(--muted); font-size: 12px; }
     drawLiveChart(); renderHoldings(keys, docs); renderTrades(keys, docs);
   }
   function drawLiveChart() {
-    var h = state.live.hold, v = state.live.vol; if (!h || !v) return;
+    var h = state.live.hold, v = state.live.vol, w = state.live.v2; if (!h || !v || !w) return;
+    function align(d) { var m = {}; d.equity.forEach(function (r) { m[r[0]] = r[1]; }); return h.equity.map(function (r) { return m[r[0]] != null ? m[r[0]] : d.startCash; }); }
     var dates = h.equity.map(function (r) { return r[0]; });
     lineChart($('liveChart'), {
       x: dates, height: 260, include: h.startCash, includeLabel: 'Start ' + money(h.startCash),
-      label: 'Portfolio value by day for the buy-and-hold and S&P 500 picker portfolios',
+      label: 'Portfolio value by day for the buy-and-hold, picker A and picker B portfolios',
       series: [{ name: NAMES.hold, color: VAR.hold, y: h.equity.map(function (r) { return r[1]; }) },
-               { name: NAMES.vol, color: VAR.vol, y: v.equity.length === h.equity.length ? v.equity.map(function (r) { return r[1]; }) : h.equity.map(function () { return null; }) }],
+               { name: NAMES.vol, color: VAR.vol, y: align(v) },
+               { name: NAMES.v2, color: VAR.v2, y: align(w) }],
       yTick: function (t) { return money(t); }, tipVal: function (val) { return money(val, 2); }
     });
     $('liveNote').textContent = dates.length < 3
@@ -324,8 +326,8 @@ footer { color: var(--muted); font-size: 12px; }
   function load() {
     get('review.json').then(renderReview).catch(function () {});
     var empty = { cash: 10000, shares: {}, trades: [], equity: [], prices: {}, last_date: '' };
-    Promise.all([get('state_hold.json').catch(function () { return empty; }), get('state_picker.json').catch(function () { return empty; })]).then(function (r) {
-      state.live.hold = toLive(r[0]); state.live.vol = toLive(r[1]); renderLive(); renderScan(r[1].scan);
+    Promise.all([get('state_hold.json').catch(function () { return empty; }), get('state_picker.json').catch(function () { return empty; }), get('state_pickerb.json').catch(function () { return empty; })]).then(function (r) {
+      state.live.hold = toLive(r[0]); state.live.vol = toLive(r[1]); state.live.v2 = toLive(r[2]); renderLive(); renderScan(r[1].scan);
       if (!r[1].equity.length) $('scanNote').textContent = 'The picker has not run yet. It starts after the first daily run (Actions tab, Run workflow).';
     }).catch(function () { fail('No portfolio data yet. The first daily run has not finished.'); });
   }
