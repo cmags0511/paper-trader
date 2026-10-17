@@ -1,0 +1,576 @@
+{
+ "period": [
+  "2021-10-29",
+  "2026-10-16"
+ ],
+ "picker": {
+  "baseline (current live rules)": {
+   "params": {},
+   "all": {
+    "ret": 210.8,
+    "per_year": 25.8,
+    "worst_drop": -35.0,
+    "sharpe": 0.94
+   },
+   "first_half": {
+    "ret": 26.8,
+    "per_year": 10.1,
+    "worst_drop": -22.0,
+    "sharpe": 0.55
+   },
+   "second_half": {
+    "ret": 141.4,
+    "per_year": 42.9,
+    "worst_drop": -35.0,
+    "sharpe": 1.2
+   }
+  },
+  "no stop-loss": {
+   "params": {
+    "stop": null
+   },
+   "all": {
+    "ret": 196.0,
+    "per_year": 24.6,
+    "worst_drop": -35.3,
+    "sharpe": 0.85
+   },
+   "first_half": {
+    "ret": 29.4,
+    "per_year": 11.0,
+    "worst_drop": -20.5,
+    "sharpe": 0.59
+   },
+   "second_half": {
+    "ret": 126.3,
+    "per_year": 39.2,
+    "worst_drop": -35.3,
+    "sharpe": 1.04
+   }
+  },
+  "stop 25%": {
+   "params": {
+    "stop": 0.25
+   },
+   "all": {
+    "ret": 202.6,
+    "per_year": 25.1,
+    "worst_drop": -34.0,
+    "sharpe": 0.91
+   },
+   "first_half": {
+    "ret": 29.4,
+    "per_year": 11.0,
+    "worst_drop": -20.5,
+    "sharpe": 0.59
+   },
+   "second_half": {
+    "ret": 131.3,
+    "per_year": 40.4,
+    "worst_drop": -34.0,
+    "sharpe": 1.13
+   }
+  },
+  "stop 10%": {
+   "params": {
+    "stop": 0.1
+   },
+   "all": {
+    "ret": 133.6,
+    "per_year": 18.7,
+    "worst_drop": -34.7,
+    "sharpe": 0.75
+   },
+   "first_half": {
+    "ret": 17.9,
+    "per_year": 6.9,
+    "worst_drop": -25.6,
+    "sharpe": 0.42
+   },
+   "second_half": {
+    "ret": 95.1,
+    "per_year": 31.1,
+    "worst_drop": -34.7,
+    "sharpe": 0.97
+   }
+  },
+  "wait 20 days before buying a sold stock back": {
+   "params": {
+    "cooldown": 20
+   },
+   "all": {
+    "ret": 191.6,
+    "per_year": 24.2,
+    "worst_drop": -29.6,
+    "sharpe": 0.97
+   },
+   "first_half": {
+    "ret": 21.9,
+    "per_year": 8.4,
+    "worst_drop": -21.7,
+    "sharpe": 0.49
+   },
+   "second_half": {
+    "ret": 135.6,
+    "per_year": 41.5,
+    "worst_drop": -29.6,
+    "sharpe": 1.31
+   }
+  },
+  "wait 40 days before buying back": {
+   "params": {
+    "cooldown": 40
+   },
+   "all": {
+    "ret": 104.0,
+    "per_year": 15.5,
+    "worst_drop": -27.2,
+    "sharpe": 0.71
+   },
+   "first_half": {
+    "ret": 13.3,
+    "per_year": 5.2,
+    "worst_drop": -26.9,
+    "sharpe": 0.35
+   },
+   "second_half": {
+    "ret": 77.3,
+    "per_year": 26.1,
+    "worst_drop": -27.2,
+    "sharpe": 0.96
+   }
+  },
+  "trade only once a week": {
+   "params": {
+    "every": 5
+   },
+   "all": {
+    "ret": 159.2,
+    "per_year": 21.3,
+    "worst_drop": -34.2,
+    "sharpe": 0.84
+   },
+   "first_half": {
+    "ret": 41.8,
+    "per_year": 15.2,
+    "worst_drop": -20.5,
+    "sharpe": 0.77
+   },
+   "second_half": {
+    "ret": 82.5,
+    "per_year": 27.6,
+    "worst_drop": -34.2,
+    "sharpe": 0.92
+   }
+  },
+  "trade only once a month": {
+   "params": {
+    "every": 21
+   },
+   "all": {
+    "ret": 169.6,
+    "per_year": 22.2,
+    "worst_drop": -26.9,
+    "sharpe": 0.95
+   },
+   "first_half": {
+    "ret": 40.0,
+    "per_year": 14.6,
+    "worst_drop": -19.0,
+    "sharpe": 0.74
+   },
+   "second_half": {
+    "ret": 89.1,
+    "per_year": 29.4,
+    "worst_drop": -26.9,
+    "sharpe": 1.1
+   }
+  },
+  "200-day average instead of 100": {
+   "params": {
+    "ma": 200
+   },
+   "all": {
+    "ret": 309.5,
+    "per_year": 33.0,
+    "worst_drop": -36.3,
+    "sharpe": 1.12
+   },
+   "first_half": {
+    "ret": 49.3,
+    "per_year": 17.6,
+    "worst_drop": -22.2,
+    "sharpe": 0.84
+   },
+   "second_half": {
+    "ret": 170.0,
+    "per_year": 49.5,
+    "worst_drop": -36.3,
+    "sharpe": 1.33
+   }
+  },
+  "50-day average": {
+   "params": {
+    "ma": 50
+   },
+   "all": {
+    "ret": 118.2,
+    "per_year": 17.1,
+    "worst_drop": -31.1,
+    "sharpe": 0.7
+   },
+   "first_half": {
+    "ret": 1.7,
+    "per_year": 0.7,
+    "worst_drop": -25.8,
+    "sharpe": 0.14
+   },
+   "second_half": {
+    "ret": 111.9,
+    "per_year": 35.6,
+    "worst_drop": -31.1,
+    "sharpe": 1.07
+   }
+  },
+  "sell only 3% below the average": {
+   "params": {
+    "buffer": 0.03
+   },
+   "all": {
+    "ret": 187.2,
+    "per_year": 23.8,
+    "worst_drop": -34.5,
+    "sharpe": 0.88
+   },
+   "first_half": {
+    "ret": 28.1,
+    "per_year": 10.6,
+    "worst_drop": -26.5,
+    "sharpe": 0.57
+   },
+   "second_half": {
+    "ret": 123.4,
+    "per_year": 38.5,
+    "worst_drop": -34.5,
+    "sharpe": 1.12
+   }
+  },
+  "rank by plain 6-month gain": {
+   "params": {
+    "rank": "mom"
+   },
+   "all": {
+    "ret": 569.9,
+    "per_year": 47.0,
+    "worst_drop": -37.6,
+    "sharpe": 1.18
+   },
+   "first_half": {
+    "ret": 72.3,
+    "per_year": 24.7,
+    "worst_drop": -24.9,
+    "sharpe": 0.89
+   },
+   "second_half": {
+    "ret": 288.2,
+    "per_year": 73.2,
+    "worst_drop": -37.6,
+    "sharpe": 1.42
+   }
+  },
+  "12-month gain (skip last month)": {
+   "params": {
+    "mom_look": 252
+   },
+   "all": {
+    "ret": 138.6,
+    "per_year": 19.2,
+    "worst_drop": -38.6,
+    "sharpe": 0.72
+   },
+   "first_half": {
+    "ret": 38.0,
+    "per_year": 13.9,
+    "worst_drop": -23.1,
+    "sharpe": 0.66
+   },
+   "second_half": {
+    "ret": 71.2,
+    "per_year": 24.3,
+    "worst_drop": -38.6,
+    "sharpe": 0.77
+   }
+  },
+  "3-month gain": {
+   "params": {
+    "mom_look": 63
+   },
+   "all": {
+    "ret": 92.6,
+    "per_year": 14.2,
+    "worst_drop": -28.1,
+    "sharpe": 0.67
+   },
+   "first_half": {
+    "ret": -10.3,
+    "per_year": -4.3,
+    "worst_drop": -28.1,
+    "sharpe": -0.11
+   },
+   "second_half": {
+    "ret": 114.6,
+    "per_year": 36.2,
+    "worst_drop": -20.5,
+    "sharpe": 1.28
+   }
+  },
+  "rank by low bumpiness": {
+   "params": {
+    "rank": "lowvol"
+   },
+   "all": {
+    "ret": 31.1,
+    "per_year": 5.6,
+    "worst_drop": -17.7,
+    "sharpe": 0.48
+   },
+   "first_half": {
+    "ret": 8.8,
+    "per_year": 3.5,
+    "worst_drop": -17.7,
+    "sharpe": 0.32
+   },
+   "second_half": {
+    "ret": 19.7,
+    "per_year": 7.6,
+    "worst_drop": -16.1,
+    "sharpe": 0.65
+   }
+  },
+  "keep while in top 100": {
+   "params": {
+    "keep": 100
+   },
+   "all": {
+    "ret": 194.5,
+    "per_year": 24.4,
+    "worst_drop": -30.6,
+    "sharpe": 0.91
+   },
+   "first_half": {
+    "ret": 43.5,
+    "per_year": 15.7,
+    "worst_drop": -21.5,
+    "sharpe": 0.75
+   },
+   "second_half": {
+    "ret": 103.0,
+    "per_year": 33.2,
+    "worst_drop": -30.6,
+    "sharpe": 1.03
+   }
+  },
+  "cash when the S&P 500 is below its 200-day average": {
+   "params": {
+    "regime": true
+   },
+   "all": {
+    "ret": 172.6,
+    "per_year": 22.5,
+    "worst_drop": -29.9,
+    "sharpe": 0.91
+   },
+   "first_half": {
+    "ret": 17.0,
+    "per_year": 6.6,
+    "worst_drop": -24.0,
+    "sharpe": 0.47
+   },
+   "second_half": {
+    "ret": 129.5,
+    "per_year": 40.0,
+    "worst_drop": -29.9,
+    "sharpe": 1.19
+   }
+  },
+  "weekly + cooldown 20 + stop 20%": {
+   "params": {
+    "every": 5,
+    "cooldown": 20,
+    "stop": 0.2
+   },
+   "all": {
+    "ret": 242.5,
+    "per_year": 28.3,
+    "worst_drop": -29.2,
+    "sharpe": 1.06
+   },
+   "first_half": {
+    "ret": 42.3,
+    "per_year": 15.4,
+    "worst_drop": -20.8,
+    "sharpe": 0.78
+   },
+   "second_half": {
+    "ret": 140.2,
+    "per_year": 42.6,
+    "worst_drop": -29.2,
+    "sharpe": 1.28
+   }
+  },
+  "monthly + 200-day + market filter": {
+   "params": {
+    "every": 21,
+    "ma": 200,
+    "regime": true
+   },
+   "all": {
+    "ret": 143.8,
+    "per_year": 19.8,
+    "worst_drop": -19.7,
+    "sharpe": 0.97
+   },
+   "first_half": {
+    "ret": 28.7,
+    "per_year": 10.8,
+    "worst_drop": -18.8,
+    "sharpe": 0.75
+   },
+   "second_half": {
+    "ret": 86.2,
+    "per_year": 28.6,
+    "worst_drop": -19.7,
+    "sharpe": 1.12
+   }
+  },
+  "weekly + 12-month gain + market filter": {
+   "params": {
+    "every": 5,
+    "mom_look": 252,
+    "regime": true
+   },
+   "all": {
+    "ret": 114.9,
+    "per_year": 16.7,
+    "worst_drop": -35.4,
+    "sharpe": 0.72
+   },
+   "first_half": {
+    "ret": 40.5,
+    "per_year": 14.8,
+    "worst_drop": -17.9,
+    "sharpe": 0.85
+   },
+   "second_half": {
+    "ret": 52.3,
+    "per_year": 18.6,
+    "worst_drop": -35.4,
+    "sharpe": 0.68
+   }
+  }
+ },
+ "hold10": {
+  "buy_once": {
+   "all": {
+    "ret": 185.4,
+    "per_year": 23.6,
+    "worst_drop": -28.1,
+    "sharpe": 1.06
+   },
+   "first_half": {
+    "ret": 51.9,
+    "per_year": 18.5,
+    "worst_drop": -28.1,
+    "sharpe": 0.84
+   },
+   "second_half": {
+    "ret": 89.2,
+    "per_year": 29.5,
+    "worst_drop": -23.9,
+    "sharpe": 1.3
+   }
+  },
+  "monthly_rebalance": {
+   "all": {
+    "ret": 193.4,
+    "per_year": 24.3,
+    "worst_drop": -29.7,
+    "sharpe": 1.11
+   },
+   "first_half": {
+    "ret": 56.4,
+    "per_year": 19.9,
+    "worst_drop": -29.7,
+    "sharpe": 0.86
+   },
+   "second_half": {
+    "ret": 88.1,
+    "per_year": 29.2,
+    "worst_drop": -22.6,
+    "sharpe": 1.47
+   }
+  },
+  "trend_filter_200d": {
+   "all": {
+    "ret": 125.0,
+    "per_year": 17.8,
+    "worst_drop": -15.7,
+    "sharpe": 1.32
+   },
+   "first_half": {
+    "ret": 53.5,
+    "per_year": 19.0,
+    "worst_drop": -12.5,
+    "sharpe": 1.4
+   },
+   "second_half": {
+    "ret": 47.2,
+    "per_year": 17.0,
+    "worst_drop": -15.7,
+    "sharpe": 1.26
+   }
+  }
+ },
+ "benchmarks": {
+  "S&P 500 index fund (SPY)": {
+   "all": {
+    "ret": 77.7,
+    "per_year": 12.3,
+    "worst_drop": -24.5,
+    "sharpe": 0.76
+   },
+   "first_half": {
+    "ret": 14.3,
+    "per_year": 5.6,
+    "worst_drop": -24.5,
+    "sharpe": 0.39
+   },
+   "second_half": {
+    "ret": 55.5,
+    "per_year": 19.6,
+    "worst_drop": -18.8,
+    "sharpe": 1.2
+   }
+  },
+  "All 500 stocks equal weight": {
+   "all": {
+    "ret": 87.0,
+    "per_year": 13.5,
+    "worst_drop": -19.9,
+    "sharpe": 0.85
+   },
+   "first_half": {
+    "ret": 21.7,
+    "per_year": 8.3,
+    "worst_drop": -19.9,
+    "sharpe": 0.53
+   },
+   "second_half": {
+    "ret": 53.4,
+    "per_year": 18.9,
+    "worst_drop": -17.7,
+    "sharpe": 1.26
+   }
+  }
+ }
+}
