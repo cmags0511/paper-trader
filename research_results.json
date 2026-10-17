@@ -443,6 +443,323 @@
     "sharpe": 1.12
    }
   },
+  "R2 plain gain + 200-day average": {
+   "params": {
+    "rank": "mom",
+    "ma": 200
+   },
+   "all": {
+    "ret": 887.1,
+    "per_year": 59.0,
+    "worst_drop": -44.1,
+    "sharpe": 1.32
+   },
+   "first_half": {
+    "ret": 79.5,
+    "per_year": 26.8,
+    "worst_drop": -27.6,
+    "sharpe": 0.9
+   },
+   "second_half": {
+    "ret": 449.2,
+    "per_year": 99.4,
+    "worst_drop": -44.1,
+    "sharpe": 1.64
+   }
+  },
+  "R2 plain gain + 200-day + stop 25%": {
+   "params": {
+    "rank": "mom",
+    "ma": 200,
+    "stop": 0.25
+   },
+   "all": {
+    "ret": 805.7,
+    "per_year": 56.2,
+    "worst_drop": -44.4,
+    "sharpe": 1.27
+   },
+   "first_half": {
+    "ret": 77.3,
+    "per_year": 26.1,
+    "worst_drop": -28.9,
+    "sharpe": 0.88
+   },
+   "second_half": {
+    "ret": 413.0,
+    "per_year": 94.0,
+    "worst_drop": -44.4,
+    "sharpe": 1.58
+   }
+  },
+  "R2 plain gain + 200-day + no stop": {
+   "params": {
+    "rank": "mom",
+    "ma": 200,
+    "stop": null
+   },
+   "all": {
+    "ret": 719.4,
+    "per_year": 53.1,
+    "worst_drop": -43.6,
+    "sharpe": 1.21
+   },
+   "first_half": {
+    "ret": 60.0,
+    "per_year": 21.0,
+    "worst_drop": -30.4,
+    "sharpe": 0.76
+   },
+   "second_half": {
+    "ret": 411.1,
+    "per_year": 93.7,
+    "worst_drop": -43.6,
+    "sharpe": 1.54
+   }
+  },
+  "R2 plain gain + stop 25%": {
+   "params": {
+    "rank": "mom",
+    "stop": 0.25
+   },
+   "all": {
+    "ret": 550.8,
+    "per_year": 46.1,
+    "worst_drop": -39.1,
+    "sharpe": 1.16
+   },
+   "first_half": {
+    "ret": 69.7,
+    "per_year": 23.9,
+    "worst_drop": -24.8,
+    "sharpe": 0.87
+   },
+   "second_half": {
+    "ret": 281.4,
+    "per_year": 72.0,
+    "worst_drop": -39.1,
+    "sharpe": 1.4
+   }
+  },
+  "R2 plain gain + wait 20 days": {
+   "params": {
+    "rank": "mom",
+    "cooldown": 20
+   },
+   "all": {
+    "ret": 563.7,
+    "per_year": 46.7,
+    "worst_drop": -31.8,
+    "sharpe": 1.28
+   },
+   "first_half": {
+    "ret": 74.2,
+    "per_year": 25.2,
+    "worst_drop": -24.4,
+    "sharpe": 0.94
+   },
+   "second_half": {
+    "ret": 279.8,
+    "per_year": 71.7,
+    "worst_drop": -31.8,
+    "sharpe": 1.55
+   }
+  },
+  "R2 plain gain + weekly trading": {
+   "params": {
+    "rank": "mom",
+    "every": 5
+   },
+   "all": {
+    "ret": 422.4,
+    "per_year": 39.7,
+    "worst_drop": -39.7,
+    "sharpe": 1.1
+   },
+   "first_half": {
+    "ret": 71.8,
+    "per_year": 24.5,
+    "worst_drop": -25.9,
+    "sharpe": 0.9
+   },
+   "second_half": {
+    "ret": 203.0,
+    "per_year": 56.7,
+    "worst_drop": -39.7,
+    "sharpe": 1.26
+   }
+  },
+  "R2 plain gain + market filter": {
+   "params": {
+    "rank": "mom",
+    "regime": true
+   },
+   "all": {
+    "ret": 375.9,
+    "per_year": 37.1,
+    "worst_drop": -37.6,
+    "sharpe": 1.07
+   },
+   "first_half": {
+    "ret": 34.6,
+    "per_year": 12.8,
+    "worst_drop": -25.0,
+    "sharpe": 0.65
+   },
+   "second_half": {
+    "ret": 253.9,
+    "per_year": 66.9,
+    "worst_drop": -37.6,
+    "sharpe": 1.38
+   }
+  },
+  "R2 plain 9-month gain": {
+   "params": {
+    "rank": "mom",
+    "mom_look": 189
+   },
+   "all": {
+    "ret": 553.5,
+    "per_year": 46.2,
+    "worst_drop": -40.4,
+    "sharpe": 1.15
+   },
+   "first_half": {
+    "ret": 56.7,
+    "per_year": 20.0,
+    "worst_drop": -26.8,
+    "sharpe": 0.74
+   },
+   "second_half": {
+    "ret": 317.6,
+    "per_year": 78.4,
+    "worst_drop": -40.4,
+    "sharpe": 1.46
+   }
+  },
+  "R2 plain 12-month gain": {
+   "params": {
+    "rank": "mom",
+    "mom_look": 252
+   },
+   "all": {
+    "ret": 464.5,
+    "per_year": 42.0,
+    "worst_drop": -41.5,
+    "sharpe": 1.1
+   },
+   "first_half": {
+    "ret": 79.8,
+    "per_year": 26.8,
+    "worst_drop": -26.8,
+    "sharpe": 0.95
+   },
+   "second_half": {
+    "ret": 215.1,
+    "per_year": 59.2,
+    "worst_drop": -41.5,
+    "sharpe": 1.25
+   }
+  },
+  "R2 plain 4-month gain": {
+   "params": {
+    "rank": "mom",
+    "mom_look": 84
+   },
+   "all": {
+    "ret": 683.8,
+    "per_year": 51.7,
+    "worst_drop": -36.0,
+    "sharpe": 1.31
+   },
+   "first_half": {
+    "ret": 34.5,
+    "per_year": 12.8,
+    "worst_drop": -32.9,
+    "sharpe": 0.57
+   },
+   "second_half": {
+    "ret": 482.6,
+    "per_year": 104.2,
+    "worst_drop": -36.0,
+    "sharpe": 1.84
+   }
+  },
+  "R2 plain gain, keep while top 20": {
+   "params": {
+    "rank": "mom",
+    "keep": 20,
+    "pool": 10
+   },
+   "all": {
+    "ret": 508.9,
+    "per_year": 44.1,
+    "worst_drop": -37.6,
+    "sharpe": 1.12
+   },
+   "first_half": {
+    "ret": 27.3,
+    "per_year": 10.3,
+    "worst_drop": -26.1,
+    "sharpe": 0.47
+   },
+   "second_half": {
+    "ret": 377.5,
+    "per_year": 88.4,
+    "worst_drop": -37.6,
+    "sharpe": 1.57
+   }
+  },
+  "R2 plain gain, keep while top 100": {
+   "params": {
+    "rank": "mom",
+    "keep": 100
+   },
+   "all": {
+    "ret": 491.9,
+    "per_year": 43.3,
+    "worst_drop": -37.6,
+    "sharpe": 1.13
+   },
+   "first_half": {
+    "ret": 70.8,
+    "per_year": 24.2,
+    "worst_drop": -24.1,
+    "sharpe": 0.9
+   },
+   "second_half": {
+    "ret": 244.5,
+    "per_year": 65.1,
+    "worst_drop": -37.6,
+    "sharpe": 1.32
+   }
+  },
+  "R2 plain gain + 200-day + weekly + wait 20": {
+   "params": {
+    "rank": "mom",
+    "ma": 200,
+    "every": 5,
+    "cooldown": 20
+   },
+   "all": {
+    "ret": 430.1,
+    "per_year": 40.2,
+    "worst_drop": -35.9,
+    "sharpe": 1.14
+   },
+   "first_half": {
+    "ret": 56.7,
+    "per_year": 20.0,
+    "worst_drop": -27.9,
+    "sharpe": 0.77
+   },
+   "second_half": {
+    "ret": 236.7,
+    "per_year": 63.5,
+    "worst_drop": -35.9,
+    "sharpe": 1.43
+   }
+  },
   "weekly + 12-month gain + market filter": {
    "params": {
     "every": 5,

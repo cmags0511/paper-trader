@@ -17,6 +17,19 @@ keep while in top 100                                   all   24.4%/yr  1st   15
 cash when the S&P 500 is below its 200-day average      all   22.5%/yr  1st    6.6  2nd   40.0  drop  -29.9
 weekly + cooldown 20 + stop 20%                         all   28.3%/yr  1st   15.4  2nd   42.6  drop  -29.2
 monthly + 200-day + market filter                       all   19.8%/yr  1st   10.8  2nd   28.6  drop  -19.7
+R2 plain gain + 200-day average                         all   59.0%/yr  1st   26.8  2nd   99.4  drop  -44.1
+R2 plain gain + 200-day + stop 25%                      all   56.2%/yr  1st   26.1  2nd   94.0  drop  -44.4
+R2 plain gain + 200-day + no stop                       all   53.1%/yr  1st   21.0  2nd   93.7  drop  -43.6
+R2 plain gain + stop 25%                                all   46.1%/yr  1st   23.9  2nd   72.0  drop  -39.1
+R2 plain gain + wait 20 days                            all   46.7%/yr  1st   25.2  2nd   71.7  drop  -31.8
+R2 plain gain + weekly trading                          all   39.7%/yr  1st   24.5  2nd   56.7  drop  -39.7
+R2 plain gain + market filter                           all   37.1%/yr  1st   12.8  2nd   66.9  drop  -37.6
+R2 plain 9-month gain                                   all   46.2%/yr  1st   20.0  2nd   78.4  drop  -40.4
+R2 plain 12-month gain                                  all   42.0%/yr  1st   26.8  2nd   59.2  drop  -41.5
+R2 plain 4-month gain                                   all   51.7%/yr  1st   12.8  2nd  104.2  drop  -36.0
+R2 plain gain, keep while top 20                        all   44.1%/yr  1st   10.3  2nd   88.4  drop  -37.6
+R2 plain gain, keep while top 100                       all   43.3%/yr  1st   24.2  2nd   65.1  drop  -37.6
+R2 plain gain + 200-day + weekly + wait 20              all   40.2%/yr  1st   20.0  2nd   63.5  drop  -35.9
 weekly + 12-month gain + market filter                  all   16.7%/yr  1st   14.8  2nd   18.6  drop  -35.4
 buy_once                                                all   23.6%/yr  1st   18.5  2nd   29.5  drop  -28.1
 monthly_rebalance                                       all   24.3%/yr  1st   19.9  2nd   29.2  drop  -29.7
