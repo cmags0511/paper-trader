@@ -116,6 +116,10 @@ footer { color: var(--muted); font-size: 12px; }
       <div id="holdings"></div>
     </div>
     <div class="card">
+      <h2>Daily review: what worked and what didn't</h2>
+      <div id="review" class="read"><p class="empty">No review yet.</p></div>
+    </div>
+    <div class="card">
       <h2>Picker: today's top-ranked stocks</h2>
       <p class="note" id="scanNote" style="margin-top:2px"></p>
       <div class="scroll" id="scan"></div>
@@ -288,6 +292,10 @@ footer { color: var(--muted); font-size: 12px; }
       }).join('') + '</tbody></table>';
   }
 
+  function renderReview(r) {
+    if (!r || !r.lines) return;
+    $('review').innerHTML = r.lines.map(function (l) { return '<p>' + esc(l) + '</p>'; }).join('');
+  }
   function renderScan(sc) {
     if (!sc || !sc.top) { $('scan').innerHTML = '<p class="empty">No scan yet.</p>'; return; }
     $('scanNote').textContent = sc.buyable + ' of ~500 stocks passed the filters on ' + dlong(sc.date) + '. Score = recent 6-month gain divided by bumpiness.';
@@ -314,6 +322,7 @@ footer { color: var(--muted); font-size: 12px; }
   }
   function get(url) { return fetch(url + '?t=' + Date.now(), { cache: 'no-store' }).then(function (r) { if (!r.ok) throw new Error(r.status); return r.json(); }); }
   function load() {
+    get('review.json').then(renderReview).catch(function () {});
     var empty = { cash: 10000, shares: {}, trades: [], equity: [], prices: {}, last_date: '' };
     Promise.all([get('state_hold.json').catch(function () { return empty; }), get('state_picker.json').catch(function () { return empty; })]).then(function (r) {
       state.live.hold = toLive(r[0]); state.live.vol = toLive(r[1]); renderLive(); renderScan(r[1].scan);

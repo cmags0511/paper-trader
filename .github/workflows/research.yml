@@ -1,0 +1,35 @@
+name: Strategy research
+
+# Tests many versions of both methods on ~5 years of real past prices (fake money, report only).
+# Runs by itself whenever research.py changes, or by hand from the Actions tab.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [research.py]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python research.py | tee research_log.txt
+      - name: Save results
+        run: |
+          git config user.name "paper-trader bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add research_results.json research_log.txt
+          git commit -m "Strategy research results" || exit 0
+          for i in 1 2 3; do git pull --rebase -q && git push && break || sleep 5; done
