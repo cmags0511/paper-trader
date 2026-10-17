@@ -160,6 +160,20 @@ def main():
         "cash when the S&P 500 is below its 200-day average": dict(regime=True),
         "weekly + cooldown 20 + stop 20%": dict(every=5, cooldown=20, stop=0.20),
         "monthly + 200-day + market filter": dict(every=21, ma=200, regime=True),
+        # round 2: combinations built around the round-1 leader (plain 6-month gain)
+        "R2 plain gain + 200-day average": dict(rank="mom", ma=200),
+        "R2 plain gain + 200-day + stop 25%": dict(rank="mom", ma=200, stop=0.25),
+        "R2 plain gain + 200-day + no stop": dict(rank="mom", ma=200, stop=None),
+        "R2 plain gain + stop 25%": dict(rank="mom", stop=0.25),
+        "R2 plain gain + wait 20 days": dict(rank="mom", cooldown=20),
+        "R2 plain gain + weekly trading": dict(rank="mom", every=5),
+        "R2 plain gain + market filter": dict(rank="mom", regime=True),
+        "R2 plain 9-month gain": dict(rank="mom", mom_look=189),
+        "R2 plain 12-month gain": dict(rank="mom", mom_look=252),
+        "R2 plain 4-month gain": dict(rank="mom", mom_look=84),
+        "R2 plain gain, keep while top 20": dict(rank="mom", keep=20, pool=10),
+        "R2 plain gain, keep while top 100": dict(rank="mom", keep=100),
+        "R2 plain gain + 200-day + weekly + wait 20": dict(rank="mom", ma=200, every=5, cooldown=20),
         "weekly + 12-month gain + market filter": dict(every=5, mom_look=252, regime=True),
     }
     for name, params in variants.items():
