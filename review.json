@@ -1,5 +1,5 @@
 {
- "date": "2026-10-16",
+ "date": "2026-10-19",
  "closed": 5,
  "wins": 0,
  "rules": [
@@ -33,52 +33,52 @@
  "open": [
   {
    "ticker": "TECH",
-   "pnl_pct": 0.1
+   "pnl_pct": -0.1
   },
   {
    "ticker": "HUM",
-   "pnl_pct": 4.2
+   "pnl_pct": 4.7
   },
   {
    "ticker": "NTAP",
-   "pnl_pct": -13.6
+   "pnl_pct": -12.0
   },
   {
    "ticker": "MPC",
-   "pnl_pct": 8.1
+   "pnl_pct": 7.1
   },
   {
    "ticker": "FTNT",
-   "pnl_pct": -10.6
+   "pnl_pct": -9.4
   },
   {
    "ticker": "CNC",
-   "pnl_pct": 6.4
+   "pnl_pct": 5.6
   },
   {
    "ticker": "PSX",
-   "pnl_pct": 7.9
+   "pnl_pct": 7.0
   },
   {
    "ticker": "VLO",
-   "pnl_pct": 0.1
+   "pnl_pct": -2.4
   },
   {
    "ticker": "HPE",
-   "pnl_pct": 0.0
+   "pnl_pct": 1.3
   },
   {
    "ticker": "CRWD",
-   "pnl_pct": -0.0
+   "pnl_pct": 0.3
   }
  ],
  "lines": [
-  "Since the start: picker A -6.5%, original 10 -0.1%, picker B -0.1%.",
+  "Since the start: picker A -6.5%, original 10 +0.4%, picker B +1.4%.",
   "5 trades closed so far, 0 made money.",
   "Sells for \"dropped below its 100-day average\": 3 so far, average -10.3%.",
   "Sells for \"fell 15% from its high\": 2 so far, average -18.4%.",
   "2 stock(s) were bought back within 5 days of selling (DELL, HPE). That pays trading costs twice and chases the same bumpy price.",
-  "Open positions down 10% or more: NTAP -13.6%, FTNT -10.6%.",
+  "Open positions down 10% or more: NTAP -12.0%.",
   "Only 5 closed trades, so this is too little to change rules on. The review waits for 30."
  ],
  "enough_data": false
