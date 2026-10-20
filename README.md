@@ -61,7 +61,8 @@ Prices come from Yahoo Finance through the `yfinance` package, so they can be de
 The file `.github/workflows/daily.yml` tells GitHub to run two practice portfolios every weekday after the market closes. Each starts with $10,000 of fake cash:
 
 1. **Original 10 (buy and hold)**: buys Apple, Microsoft, Nvidia, Amazon, Google, Meta, JPMorgan, Goldman Sachs, Exxon and Costco once and never sells. Saved in `state_hold.json`.
-2. **S&P 500 picker** (`sp500_picker.py`): looks at all ~500 S&P 500 stocks every day and holds only 10 at a time. It only considers stocks over $10 that trade at least $20 million a day and sit above their 100-day average, and ranks them by 6-month gain divided by bumpiness. It sells a stock if it falls 15% from its high, drops below its 100-day average, or falls out of the top 40. Empty slots are filled from the top 20. Saved in `state_picker.json`.
+2. **Picker A (active rotation)** (`sp500_picker.py --rotate`): holds 20 stocks and never sells because a stock fell. It swaps a holding for a stock whose 6-month gain is at least 25 points higher. (The old version, which held 10 and sold on weakness, is saved in `state_picker_v1.json`.) Older description of the first version:
+   **S&P 500 picker**: looks at all ~500 S&P 500 stocks every day and holds only 10 at a time. It only considers stocks over $10 that trade at least $20 million a day and sit above their 100-day average, and ranks them by 6-month gain divided by bumpiness. It sells a stock if it falls 15% from its high, drops below its 100-day average, or falls out of the top 40. Empty slots are filled from the top 20. Saved in `state_picker.json`.
 
 The picker's rules are a simple experiment, not a proven winner. Earlier tests found simple rules rarely beat holding. The stock list is today's S&P 500, so the picker cannot be fairly back-tested on old data.
 
@@ -80,3 +81,5 @@ One-time setup on github.com:
 
 - `review.py` runs after each daily trade and writes `review.json`: which closed trades made or lost money, which sell rule is helping, and stocks bought back right after being sold. It only reports. It waits for 30 closed trades before suggesting any rule change.
 - `research.py` tests many rule versions on about 5 years of past prices, scored on two separate halves of the period (`research_results.json`, `research_log.txt`). Picker B (`state_pickerb.json`) is the leading idea from that test, running as a separate portfolio so it is proven on new days, not just old ones. The past-price test uses today's S&P 500 list, which flatters stock pickers.
+
+`research_rotation.py` tested the active-rotation idea on past prices (`research_rotation.json`). Fewer stocks scored higher in the past test, but that is partly luck and today's-members bias, so picker A holds 20.

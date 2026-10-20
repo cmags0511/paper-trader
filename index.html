@@ -105,14 +105,14 @@ footer { color: var(--muted); font-size: 12px; }
     <div class="cards" id="liveCards"><p class="empty">Loading portfolios…</p></div>
     <div class="card">
       <h2>Portfolio value since the first day</h2>
-      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>Picker A (steady)</span><span><i class="dot c3"></i>Picker B (momentum)</span></div>
+      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>Picker A (active)</span><span><i class="dot c3"></i>Picker B (momentum)</span></div>
       <div class="chart" id="liveChart"></div>
       <p class="note" id="liveNote"></p>
     </div>
     <div class="card">
       <h2>What each portfolio owns</h2>
       <p class="note" style="margin-top:2px">Dollar value of each stock today.</p>
-      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>Picker A (steady)</span><span><i class="dot c3"></i>Picker B (momentum)</span></div>
+      <div class="legend"><span><i class="dot c1"></i>Original 10 (buy and hold)</span><span><i class="dot c2"></i>Picker A (active)</span><span><i class="dot c3"></i>Picker B (momentum)</span></div>
       <div id="holdings"></div>
     </div>
     <div class="card">
@@ -136,8 +136,8 @@ footer { color: var(--muted); font-size: 12px; }
 
 <script>
 (function () {
-  var NAMES = { hold: 'Original 10 (buy and hold)', vol: 'Picker A (steady)', v2: 'Picker B (momentum)' };
-  var RULES = { hold: 'Bought Apple, Microsoft, Nvidia and 7 others once, and never sells.', vol: 'Scans all ~500 S&P 500 stocks daily and holds the 10 steadiest risers, selling ones that turn bad.', v2: 'Same scan, but holds the 10 biggest 6-month winners and uses a slower 200-day trend rule. Higher risk. Added Oct 17 after past-price tests.' };
+  var NAMES = { hold: 'Original 10 (buy and hold)', vol: 'Picker A (active)', v2: 'Picker B (momentum)' };
+  var RULES = { hold: 'Bought Apple, Microsoft, Nvidia and 7 others once, and never sells.', vol: 'Scans all ~500 S&P 500 stocks daily, holds 20, and never sells just because a stock fell. It only swaps a holding for a clearly stronger stock. Restarted Oct 20 with new rules.', v2: 'Same scan, but holds the 10 biggest 6-month winners and uses a slower 200-day trend rule. Higher risk. Added Oct 17 after past-price tests.' };
   var CLS = { hold: 'c1', vol: 'c2', v2: 'c3' };
   var VAR = { hold: 'var(--s1)', vol: 'var(--s2)', v2: 'var(--s3)' };
   var state = { live: {}, replay: null };

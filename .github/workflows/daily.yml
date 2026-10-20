@@ -34,7 +34,7 @@ jobs:
           python-version: "3.12"
       - run: pip install -r requirements.txt
       - name: Run picker A (fake money, holds 10 at a time)
-        run: python sp500_picker.py daily --state state_picker.json
+        run: python sp500_picker.py daily --state state_picker.json --rotate --slots 20 --margin 0.25
       - name: Run picker B (momentum version, fake money)
         run: python sp500_picker.py daily --state state_pickerb.json --rank plain --ma 200 --stop 0.25
       - name: Run the buy-and-hold bot (the original 10 stocks)

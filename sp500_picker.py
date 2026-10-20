@@ -182,6 +182,49 @@ def step(state, date, i, close, ind):
     state["equity"].append([str(date.date()), round(float(eq), 2)])
 
 
+def step_rotate(state, date, i, close, ind, slots, margin):
+    """Active rotation: never sells because a stock turned bad. A holding is only sold to
+    make room for a clearly better-ranked stock (6-month gain higher by at least `margin`)."""
+    ma100, mom, risk, dvol = ind
+    px = close.iloc[i]
+    s = mom.iloc[i]
+    elig = (px > MIN_PRICE) & (dvol.iloc[i] > MIN_DOLLAR_VOL) & s.notna() & (s > 0)
+    cand = [t for t in s[elig].sort_values(ascending=False).index if t not in state["shares"]]
+    sc = lambda t: float(s[t]) if t in s.index and np.isfinite(s[t]) else -9.0
+    state.setdefault("peaks", {})
+    while cand and state["shares"]:
+        worst = min(state["shares"], key=sc)
+        if not (sc(cand[0]) > sc(worst) + margin and np.isfinite(px[worst])):
+            break
+        new = cand.pop(0)
+        sell(state, date, worst, px[worst],
+             f"swapped for {new}: its 6-month gain {sc(new):+.0%} vs {sc(worst):+.0%}")
+        spend = state["cash"] / (1 + COST) / max(slots - len(state["shares"]), 1)
+        buy(state, date, new, float(px[new]), spend, f"replaces {worst}, 6-month gain {sc(new):+.0%}")
+    free = slots - len(state["shares"])
+    if free > 0 and cand:
+        each = state["cash"] / (1 + COST) / free
+        for t in cand[:free]:
+            buy(state, date, t, float(px[t]), each, f"open slot, 6-month gain {sc(t):+.0%}")
+    ranked = [t for t in s[elig].sort_values(ascending=False).index]
+    held = {t: float(px[t]) for t in state["shares"] if np.isfinite(px[t])}
+    state["prices"] = {**held, **{t: float(px[t]) for t in ranked[:15]}}
+    state["scan"] = {"date": str(date.date()), "buyable": len(ranked),
+                     "top": [{"t": t, "score": round(sc(t), 2), "mom": round(sc(t), 3)} for t in ranked[:10]]}
+    state["last_date"] = str(date.date())
+    eq = state["cash"] + sum(sh * held.get(t, 0.0) for t, sh in state["shares"].items())
+    state["equity"].append([str(date.date()), round(float(eq), 2)])
+
+
+def buy(state, date, t, p, spend, why):
+    if spend < 1 or not np.isfinite(p):
+        return
+    state["shares"][t] = state["shares"].get(t, 0.0) + spend / p
+    state["cash"] -= spend * (1 + COST)
+    state["trades"].append({"date": str(date.date()), "side": "BUY", "ticker": t,
+                            "shares": round(spend / p, 4), "price": round(p, 2), "why": why})
+
+
 def market_open_guard(date):
     now = datetime.now(ZoneInfo("America/New_York"))
     return str(date.date()) == str(now.date()) and (now.hour, now.minute) < (16, 30)
@@ -197,17 +240,21 @@ def main():
     ap.add_argument("--ma", type=int, default=100, help="trend average length in days")
     ap.add_argument("--rank", choices=["risk", "plain"], default="risk")
     ap.add_argument("--stop", type=float, default=0.15, help="sell after this fall from the high")
+    ap.add_argument("--rotate", action="store_true", help="active rotation instead of sell-when-bad")
+    ap.add_argument("--slots", type=int, default=20)
+    ap.add_argument("--margin", type=float, default=0.25)
     a = ap.parse_args()
     global MA_DAYS, RANK_MODE, STOP
     MA_DAYS, RANK_MODE, STOP = a.ma, a.rank, a.stop
 
     close, vol = demo_data() if a.demo else download(get_sp500(), a.years + 1)
     ind = indicators(close, vol)
+    stepper = (lambda st, d, i, c, n: step_rotate(st, d, i, c, n, a.slots, a.margin)) if a.rotate else step
 
     if a.mode == "replay":
         state = new_state(a.cash)
         for i in range(130, len(close)):
-            step(state, close.index[i], i, close, ind)
+            stepper(state, close.index[i], i, close, ind)
         e = pd.Series({d: v for d, v in state["equity"]})
         dd = (e / e.cummax() - 1).min()
         print(f"Start ${a.cash:,.0f}  End ${e.iloc[-1]:,.2f}  ({e.iloc[-1] / a.cash - 1:.1%})  "
@@ -224,7 +271,7 @@ def main():
         print(f"Already ran for {date.date()}.")
         return
     before = len(state["trades"])
-    step(state, date, i, close, ind)
+    stepper(state, date, i, close, ind)
     for tr in state["trades"][before:]:
         print(f"  {tr['side']:<4} {tr['ticker']} @ ${tr['price']}  ({tr['why']})")
     json.dump(state, open(a.state, "w"), indent=1)

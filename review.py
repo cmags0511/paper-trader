@@ -41,7 +41,7 @@ def main():
             if b:
                 closed.append({"ticker": k, "bought": b["date"], "sold": t["date"],
                                "pnl_pct": round((t["price"] / b["price"] - 1) * 100, 1),
-                               "days": days_between(b["date"], t["date"]), "why": t.get("why", "")})
+                               "days": days_between(b["date"], t["date"]), "why": t.get("why", "").split(":")[0]})
             last_sold[k] = t
     px = pick.get("prices", {})
     open_now = [{"ticker": k, "pnl_pct": round((px[k] / b["price"] - 1) * 100, 1)}
