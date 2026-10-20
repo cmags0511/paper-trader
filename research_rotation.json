@@ -1,0 +1,406 @@
+{
+ "period": [
+  "2021-11-01",
+  "2026-10-20"
+ ],
+ "rotation": {
+  "10 stocks, swap on any better rank": {
+   "params": {
+    "n": 10
+   },
+   "swaps": 1337,
+   "all": {
+    "ret": 1503.4,
+    "per_year": 75.3,
+    "worst_drop": -41.6,
+    "sharpe": 1.46
+   },
+   "first_half": {
+    "ret": 51.0,
+    "per_year": 18.2,
+    "worst_drop": -27.6,
+    "sharpe": 0.68
+   },
+   "second_half": {
+    "ret": 941.5,
+    "per_year": 158.0,
+    "worst_drop": -41.6,
+    "sharpe": 1.99
+   }
+  },
+  "20 stocks, swap on any better rank": {
+   "params": {
+    "n": 20
+   },
+   "swaps": 2347,
+   "all": {
+    "ret": 540.1,
+    "per_year": 45.6,
+    "worst_drop": -38.9,
+    "sharpe": 1.16
+   },
+   "first_half": {
+    "ret": 56.8,
+    "per_year": 20.0,
+    "worst_drop": -25.6,
+    "sharpe": 0.78
+   },
+   "second_half": {
+    "ret": 301.4,
+    "per_year": 75.5,
+    "worst_drop": -38.9,
+    "sharpe": 1.43
+   }
+  },
+  "30 stocks, swap on any better rank": {
+   "params": {
+    "n": 30
+   },
+   "swaps": 3441,
+   "all": {
+    "ret": 341.0,
+    "per_year": 35.0,
+    "worst_drop": -38.0,
+    "sharpe": 1.03
+   },
+   "first_half": {
+    "ret": 26.3,
+    "per_year": 9.9,
+    "worst_drop": -24.0,
+    "sharpe": 0.5
+   },
+   "second_half": {
+    "ret": 243.1,
+    "per_year": 64.7,
+    "worst_drop": -38.0,
+    "sharpe": 1.38
+   }
+  },
+  "50 stocks, swap on any better rank": {
+   "params": {
+    "n": 50
+   },
+   "swaps": 5480,
+   "all": {
+    "ret": 253.1,
+    "per_year": 29.1,
+    "worst_drop": -29.3,
+    "sharpe": 1.03
+   },
+   "first_half": {
+    "ret": 22.2,
+    "per_year": 8.5,
+    "worst_drop": -21.7,
+    "sharpe": 0.48
+   },
+   "second_half": {
+    "ret": 187.7,
+    "per_year": 53.3,
+    "worst_drop": -29.3,
+    "sharpe": 1.42
+   }
+  },
+  "10 stocks, swap only if 10 pts better": {
+   "params": {
+    "n": 10,
+    "margin": 0.1
+   },
+   "swaps": 496,
+   "all": {
+    "ret": 1425.1,
+    "per_year": 73.5,
+    "worst_drop": -46.0,
+    "sharpe": 1.41
+   },
+   "first_half": {
+    "ret": 71.3,
+    "per_year": 24.4,
+    "worst_drop": -29.6,
+    "sharpe": 0.83
+   },
+   "second_half": {
+    "ret": 774.7,
+    "per_year": 140.4,
+    "worst_drop": -46.0,
+    "sharpe": 1.81
+   }
+  },
+  "20 stocks, swap only if 10 pts better": {
+   "params": {
+    "n": 20,
+    "margin": 0.1
+   },
+   "swaps": 810,
+   "all": {
+    "ret": 594.0,
+    "per_year": 48.0,
+    "worst_drop": -37.0,
+    "sharpe": 1.24
+   },
+   "first_half": {
+    "ret": 53.9,
+    "per_year": 19.1,
+    "worst_drop": -26.2,
+    "sharpe": 0.77
+   },
+   "second_half": {
+    "ret": 345.2,
+    "per_year": 83.0,
+    "worst_drop": -37.0,
+    "sharpe": 1.57
+   }
+  },
+  "30 stocks, swap only if 10 pts better": {
+   "params": {
+    "n": 30,
+    "margin": 0.1
+   },
+   "swaps": 1151,
+   "all": {
+    "ret": 373.7,
+    "per_year": 37.0,
+    "worst_drop": -34.7,
+    "sharpe": 1.1
+   },
+   "first_half": {
+    "ret": 63.6,
+    "per_year": 22.1,
+    "worst_drop": -22.9,
+    "sharpe": 0.91
+   },
+   "second_half": {
+    "ret": 187.1,
+    "per_year": 53.2,
+    "worst_drop": -34.7,
+    "sharpe": 1.25
+   }
+  },
+  "20 stocks, swap only if 25 pts better": {
+   "params": {
+    "n": 20,
+    "margin": 0.25
+   },
+   "swaps": 435,
+   "all": {
+    "ret": 839.2,
+    "per_year": 57.3,
+    "worst_drop": -39.1,
+    "sharpe": 1.34
+   },
+   "first_half": {
+    "ret": 64.1,
+    "per_year": 22.2,
+    "worst_drop": -27.7,
+    "sharpe": 0.85
+   },
+   "second_half": {
+    "ret": 466.3,
+    "per_year": 101.7,
+    "worst_drop": -39.1,
+    "sharpe": 1.68
+   }
+  },
+  "20 stocks, weekly swaps": {
+   "params": {
+    "n": 20,
+    "every": 5
+   },
+   "swaps": 1018,
+   "all": {
+    "ret": 443.2,
+    "per_year": 40.8,
+    "worst_drop": -38.2,
+    "sharpe": 1.08
+   },
+   "first_half": {
+    "ret": 64.8,
+    "per_year": 22.4,
+    "worst_drop": -26.4,
+    "sharpe": 0.85
+   },
+   "second_half": {
+    "ret": 224.3,
+    "per_year": 60.9,
+    "worst_drop": -38.2,
+    "sharpe": 1.26
+   }
+  },
+  "20 stocks, 3-month gain": {
+   "params": {
+    "n": 20,
+    "look": 63
+   },
+   "swaps": 3664,
+   "all": {
+    "ret": 134.7,
+    "per_year": 18.8,
+    "worst_drop": -36.0,
+    "sharpe": 0.7
+   },
+   "first_half": {
+    "ret": -11.9,
+    "per_year": -5.0,
+    "worst_drop": -36.0,
+    "sharpe": -0.05
+   },
+   "second_half": {
+    "ret": 162.4,
+    "per_year": 47.7,
+    "worst_drop": -27.2,
+    "sharpe": 1.26
+   }
+  },
+  "20 stocks, 12-month gain": {
+   "params": {
+    "n": 20,
+    "look": 252,
+    "skip": 21
+   },
+   "swaps": 1548,
+   "all": {
+    "ret": 656.1,
+    "per_year": 50.6,
+    "worst_drop": -36.4,
+    "sharpe": 1.23
+   },
+   "first_half": {
+    "ret": 92.4,
+    "per_year": 30.3,
+    "worst_drop": -25.0,
+    "sharpe": 1.0
+   },
+   "second_half": {
+    "ret": 285.0,
+    "per_year": 72.5,
+    "worst_drop": -36.4,
+    "sharpe": 1.41
+   }
+  },
+  "20 stocks, gain per bumpiness": {
+   "params": {
+    "n": 20,
+    "rank": "risk"
+   },
+   "swaps": 3250,
+   "all": {
+    "ret": 168.9,
+    "per_year": 22.1,
+    "worst_drop": -30.9,
+    "sharpe": 0.88
+   },
+   "first_half": {
+    "ret": 14.1,
+    "per_year": 5.5,
+    "worst_drop": -21.7,
+    "sharpe": 0.36
+   },
+   "second_half": {
+    "ret": 134.1,
+    "per_year": 41.1,
+    "worst_drop": -30.9,
+    "sharpe": 1.24
+   }
+  },
+  "20 stocks, allow stocks that are falling": {
+   "params": {
+    "n": 20,
+    "need_up": false
+   },
+   "swaps": 2347,
+   "all": {
+    "ret": 540.1,
+    "per_year": 45.6,
+    "worst_drop": -38.9,
+    "sharpe": 1.16
+   },
+   "first_half": {
+    "ret": 56.8,
+    "per_year": 20.0,
+    "worst_drop": -25.6,
+    "sharpe": 0.78
+   },
+   "second_half": {
+    "ret": 301.4,
+    "per_year": 75.5,
+    "worst_drop": -38.9,
+    "sharpe": 1.43
+   }
+  },
+  "20 stocks, max 2 swaps a day": {
+   "params": {
+    "n": 20,
+    "max_swaps": 2
+   },
+   "swaps": 1894,
+   "all": {
+    "ret": 559.0,
+    "per_year": 46.4,
+    "worst_drop": -37.9,
+    "sharpe": 1.2
+   },
+   "first_half": {
+    "ret": 49.4,
+    "per_year": 17.7,
+    "worst_drop": -25.7,
+    "sharpe": 0.74
+   },
+   "second_half": {
+    "ret": 336.5,
+    "per_year": 81.5,
+    "worst_drop": -37.9,
+    "sharpe": 1.52
+   }
+  },
+  "30 stocks, max 2 swaps a day": {
+   "params": {
+    "n": 30,
+    "max_swaps": 2
+   },
+   "swaps": 2272,
+   "all": {
+    "ret": 382.5,
+    "per_year": 37.5,
+    "worst_drop": -33.6,
+    "sharpe": 1.13
+   },
+   "first_half": {
+    "ret": 35.1,
+    "per_year": 13.0,
+    "worst_drop": -24.7,
+    "sharpe": 0.62
+   },
+   "second_half": {
+    "ret": 253.9,
+    "per_year": 66.7,
+    "worst_drop": -33.6,
+    "sharpe": 1.49
+   }
+  },
+  "30 stocks, 12-month gain, 10 pts": {
+   "params": {
+    "n": 30,
+    "look": 252,
+    "margin": 0.1
+   },
+   "swaps": 828,
+   "all": {
+    "ret": 354.3,
+    "per_year": 35.8,
+    "worst_drop": -35.0,
+    "sharpe": 1.05
+   },
+   "first_half": {
+    "ret": 62.7,
+    "per_year": 21.8,
+    "worst_drop": -21.5,
+    "sharpe": 0.88
+   },
+   "second_half": {
+    "ret": 175.9,
+    "per_year": 50.8,
+    "worst_drop": -35.0,
+    "sharpe": 1.19
+   }
+  }
+ }
+}

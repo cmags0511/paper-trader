@@ -1,0 +1,16 @@
+10 stocks, swap on any better rank            all   75.3%/yr  1st   18.2  2nd  158.0  drop  -41.6  swaps 1337
+20 stocks, swap on any better rank            all   45.6%/yr  1st   20.0  2nd   75.5  drop  -38.9  swaps 2347
+30 stocks, swap on any better rank            all   35.0%/yr  1st    9.9  2nd   64.7  drop  -38.0  swaps 3441
+50 stocks, swap on any better rank            all   29.1%/yr  1st    8.5  2nd   53.3  drop  -29.3  swaps 5480
+10 stocks, swap only if 10 pts better         all   73.5%/yr  1st   24.4  2nd  140.4  drop  -46.0  swaps 496
+20 stocks, swap only if 10 pts better         all   48.0%/yr  1st   19.1  2nd   83.0  drop  -37.0  swaps 810
+30 stocks, swap only if 10 pts better         all   37.0%/yr  1st   22.1  2nd   53.2  drop  -34.7  swaps 1151
+20 stocks, swap only if 25 pts better         all   57.3%/yr  1st   22.2  2nd  101.7  drop  -39.1  swaps 435
+20 stocks, weekly swaps                       all   40.8%/yr  1st   22.4  2nd   60.9  drop  -38.2  swaps 1018
+20 stocks, 3-month gain                       all   18.8%/yr  1st   -5.0  2nd   47.7  drop  -36.0  swaps 3664
+20 stocks, 12-month gain                      all   50.6%/yr  1st   30.3  2nd   72.5  drop  -36.4  swaps 1548
+20 stocks, gain per bumpiness                 all   22.1%/yr  1st    5.5  2nd   41.1  drop  -30.9  swaps 3250
+20 stocks, allow stocks that are falling      all   45.6%/yr  1st   20.0  2nd   75.5  drop  -38.9  swaps 2347
+20 stocks, max 2 swaps a day                  all   46.4%/yr  1st   17.7  2nd   81.5  drop  -37.9  swaps 1894
+30 stocks, max 2 swaps a day                  all   37.5%/yr  1st   13.0  2nd   66.7  drop  -33.6  swaps 2272
+30 stocks, 12-month gain, 10 pts              all   35.8%/yr  1st   21.8  2nd   50.8  drop  -35.0  swaps 828
