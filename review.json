@@ -1,5 +1,5 @@
 {
- "date": "2026-10-20",
+ "date": "2026-10-21",
  "closed": 0,
  "wins": 0,
  "rules": [],
@@ -7,87 +7,87 @@
  "open": [
   {
    "ticker": "MRNA",
-   "pnl_pct": 0.0
+   "pnl_pct": 1.5
   },
   {
    "ticker": "DELL",
-   "pnl_pct": -0.0
+   "pnl_pct": 5.3
   },
   {
    "ticker": "MU",
-   "pnl_pct": 0.0
+   "pnl_pct": 2.0
   },
   {
    "ticker": "CRWD",
-   "pnl_pct": -0.0
+   "pnl_pct": 5.3
   },
   {
    "ticker": "AMD",
-   "pnl_pct": -0.0
+   "pnl_pct": 3.4
   },
   {
    "ticker": "HPE",
-   "pnl_pct": 0.0
+   "pnl_pct": 3.7
   },
   {
    "ticker": "PANW",
-   "pnl_pct": -0.0
+   "pnl_pct": 2.0
   },
   {
    "ticker": "FTNT",
-   "pnl_pct": -0.0
+   "pnl_pct": 1.8
   },
   {
    "ticker": "SNDK",
-   "pnl_pct": 0.0
+   "pnl_pct": 0.9
   },
   {
    "ticker": "DDOG",
-   "pnl_pct": -0.0
+   "pnl_pct": 6.5
   },
   {
    "ticker": "MPC",
-   "pnl_pct": 0.0
+   "pnl_pct": -1.5
   },
   {
    "ticker": "INTC",
-   "pnl_pct": 0.0
+   "pnl_pct": 1.4
   },
   {
    "ticker": "TWLO",
-   "pnl_pct": 0.0
+   "pnl_pct": 3.1
   },
   {
    "ticker": "ILMN",
-   "pnl_pct": -0.0
+   "pnl_pct": 5.6
   },
   {
    "ticker": "NTAP",
-   "pnl_pct": 0.0
+   "pnl_pct": 3.4
   },
   {
    "ticker": "HUM",
-   "pnl_pct": 0.0
+   "pnl_pct": -0.5
   },
   {
    "ticker": "MRVL",
-   "pnl_pct": -0.0
+   "pnl_pct": 1.8
   },
   {
    "ticker": "VLO",
-   "pnl_pct": 0.0
+   "pnl_pct": 0.8
   },
   {
    "ticker": "PSX",
-   "pnl_pct": -0.0
+   "pnl_pct": -0.3
   },
   {
    "ticker": "CNC",
-   "pnl_pct": -0.0
+   "pnl_pct": -0.8
   }
  ],
  "lines": [
-  "Since the start: picker A -0.1%, original 10 +0.1%, picker B +2.0%.",
+  "Since the start: picker A +2.2%, original 10 +0.7%, picker B +4.7%.",
   "Only 0 closed trades, so this is too little to change rules on. The review waits for 30."
  ],
  "enough_data": false
