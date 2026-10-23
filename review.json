@@ -1,95 +1,103 @@
 {
- "date": "2026-10-22",
- "closed": 0,
+ "date": "2026-10-23",
+ "closed": 1,
  "wins": 0,
- "rules": [],
+ "rules": [
+  {
+   "rule": "swapped for RVTY",
+   "count": 1,
+   "avg_pnl_pct": -0.9
+  }
+ ],
  "whipsaws": [],
  "open": [
   {
    "ticker": "MRNA",
-   "pnl_pct": -16.3
+   "pnl_pct": -17.3
   },
   {
    "ticker": "DELL",
-   "pnl_pct": -1.9
-  },
-  {
-   "ticker": "MU",
-   "pnl_pct": -4.4
-  },
-  {
-   "ticker": "CRWD",
-   "pnl_pct": 4.6
-  },
-  {
-   "ticker": "AMD",
-   "pnl_pct": -5.0
-  },
-  {
-   "ticker": "HPE",
    "pnl_pct": -1.1
   },
   {
+   "ticker": "MU",
+   "pnl_pct": -2.1
+  },
+  {
+   "ticker": "CRWD",
+   "pnl_pct": 13.3
+  },
+  {
+   "ticker": "AMD",
+   "pnl_pct": -3.4
+  },
+  {
+   "ticker": "HPE",
+   "pnl_pct": 1.1
+  },
+  {
    "ticker": "PANW",
-   "pnl_pct": 4.3
+   "pnl_pct": 11.8
   },
   {
    "ticker": "FTNT",
-   "pnl_pct": 1.2
+   "pnl_pct": 5.3
   },
   {
    "ticker": "SNDK",
-   "pnl_pct": -7.6
+   "pnl_pct": -9.3
   },
   {
    "ticker": "DDOG",
-   "pnl_pct": 0.5
+   "pnl_pct": 5.2
   },
   {
    "ticker": "MPC",
-   "pnl_pct": -3.3
+   "pnl_pct": -3.8
   },
   {
    "ticker": "INTC",
-   "pnl_pct": -6.8
+   "pnl_pct": -5.2
   },
   {
    "ticker": "TWLO",
-   "pnl_pct": -2.0
-  },
-  {
-   "ticker": "ILMN",
-   "pnl_pct": 0.5
-  },
-  {
-   "ticker": "NTAP",
    "pnl_pct": 1.2
   },
   {
+   "ticker": "ILMN",
+   "pnl_pct": 0.6
+  },
+  {
+   "ticker": "NTAP",
+   "pnl_pct": 2.6
+  },
+  {
    "ticker": "HUM",
-   "pnl_pct": -1.5
+   "pnl_pct": -1.2
   },
   {
    "ticker": "MRVL",
-   "pnl_pct": -7.1
+   "pnl_pct": -5.0
   },
   {
    "ticker": "VLO",
-   "pnl_pct": -1.6
+   "pnl_pct": -3.3
   },
   {
    "ticker": "PSX",
-   "pnl_pct": -2.2
+   "pnl_pct": -2.7
   },
   {
-   "ticker": "CNC",
-   "pnl_pct": 0.6
+   "ticker": "RVTY",
+   "pnl_pct": 0.0
   }
  ],
  "lines": [
-  "Since the start: picker A -2.5%, original 10 -1.2%, picker B -0.3%.",
-  "Open positions down 10% or more: MRNA -16.3%.",
-  "Only 0 closed trades, so this is too little to change rules on. The review waits for 30."
+  "Since the start: picker A -0.8%, original 10 -1.7%, picker B +2.5%.",
+  "1 trades closed so far, 0 made money.",
+  "Sells for \"swapped for RVTY\": 1 so far, average -0.9%.",
+  "Open positions down 10% or more: MRNA -17.3%.",
+  "Only 1 closed trades, so this is too little to change rules on. The review waits for 30."
  ],
  "enough_data": false
 }
