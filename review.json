@@ -1,5 +1,5 @@
 {
- "date": "2026-10-29",
+ "date": "2026-10-30",
  "closed": 4,
  "wins": 0,
  "rules": [
@@ -28,93 +28,93 @@
  "open": [
   {
    "ticker": "MRNA",
-   "pnl_pct": -8.0
+   "pnl_pct": -8.4
   },
   {
    "ticker": "DELL",
-   "pnl_pct": 3.0
+   "pnl_pct": -8.1
   },
   {
    "ticker": "MU",
-   "pnl_pct": 4.3
+   "pnl_pct": -1.3
   },
   {
    "ticker": "CRWD",
-   "pnl_pct": 14.9
+   "pnl_pct": 10.1
   },
   {
    "ticker": "AMD",
-   "pnl_pct": 5.9
+   "pnl_pct": -5.6
   },
   {
    "ticker": "HPE",
-   "pnl_pct": 5.0
+   "pnl_pct": -1.8
   },
   {
    "ticker": "PANW",
-   "pnl_pct": 11.8
+   "pnl_pct": 7.5
   },
   {
    "ticker": "FTNT",
-   "pnl_pct": -18.6
+   "pnl_pct": -20.4
   },
   {
    "ticker": "SNDK",
-   "pnl_pct": -2.6
+   "pnl_pct": -15.7
   },
   {
    "ticker": "DDOG",
-   "pnl_pct": 3.7
+   "pnl_pct": -8.3
   },
   {
    "ticker": "MPC",
-   "pnl_pct": -9.0
+   "pnl_pct": -6.4
   },
   {
    "ticker": "TWLO",
-   "pnl_pct": -6.5
+   "pnl_pct": -20.7
   },
   {
    "ticker": "ILMN",
-   "pnl_pct": 8.3
+   "pnl_pct": -11.9
   },
   {
    "ticker": "NTAP",
-   "pnl_pct": 4.0
+   "pnl_pct": -5.1
   },
   {
    "ticker": "HUM",
-   "pnl_pct": -2.3
+   "pnl_pct": -3.0
   },
   {
    "ticker": "MRVL",
-   "pnl_pct": -9.2
+   "pnl_pct": -18.3
   },
   {
    "ticker": "RVTY",
-   "pnl_pct": 4.4
-  },
-  {
-   "ticker": "VEEV",
-   "pnl_pct": -2.5
-  },
-  {
-   "ticker": "P",
    "pnl_pct": -1.1
   },
   {
+   "ticker": "VEEV",
+   "pnl_pct": -1.6
+  },
+  {
+   "ticker": "P",
+   "pnl_pct": -8.5
+  },
+  {
    "ticker": "CRL",
-   "pnl_pct": 0.6
+   "pnl_pct": -3.9
   }
  ],
  "lines": [
-  "Since the start: picker A -0.8%, original 10 -2.0%, picker B +3.3%.",
+  "Since the start: picker A -7.7%, original 10 -3.2%, picker B -2.1%.",
   "4 trades closed so far, 0 made money.",
   "Sells for \"swapped for RVTY\": 1 so far, average -0.9%.",
   "Sells for \"swapped for VEEV\": 1 so far, average -1.3%.",
   "Sells for \"swapped for P\": 1 so far, average -7.7%.",
   "Sells for \"swapped for CRL\": 1 so far, average -10.4%.",
-  "Open positions down 10% or more: FTNT -18.6%.",
+  "Open positions down 10% or more: FTNT -20.4%, SNDK -15.7%, TWLO -20.7%, ILMN -11.9%, MRVL -18.3%.",
   "Only 4 closed trades, so this is too little to change rules on. The review waits for 30."
  ],
  "enough_data": false
