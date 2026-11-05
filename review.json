@@ -1,6 +1,6 @@
 {
- "date": "2026-11-04",
- "closed": 6,
+ "date": "2026-11-05",
+ "closed": 7,
  "wins": 0,
  "rules": [
   {
@@ -32,102 +32,108 @@
    "rule": "swapped for OKTA",
    "count": 1,
    "avg_pnl_pct": -17.5
+  },
+  {
+   "rule": "swapped for VLO",
+   "count": 1,
+   "avg_pnl_pct": -31.9
   }
  ],
  "whipsaws": [],
  "open": [
   {
    "ticker": "MRNA",
-   "pnl_pct": 6.7
+   "pnl_pct": -0.3
   },
   {
    "ticker": "DELL",
-   "pnl_pct": -19.3
+   "pnl_pct": -31.3
   },
   {
    "ticker": "MU",
-   "pnl_pct": -11.3
+   "pnl_pct": -26.7
   },
   {
    "ticker": "CRWD",
-   "pnl_pct": 6.0
+   "pnl_pct": -4.5
   },
   {
    "ticker": "AMD",
-   "pnl_pct": -8.6
+   "pnl_pct": -24.4
   },
   {
    "ticker": "HPE",
-   "pnl_pct": -10.7
+   "pnl_pct": -21.3
   },
   {
    "ticker": "PANW",
-   "pnl_pct": 2.3
+   "pnl_pct": -7.5
   },
   {
    "ticker": "FTNT",
-   "pnl_pct": -24.3
-  },
-  {
-   "ticker": "DDOG",
-   "pnl_pct": -26.4
+   "pnl_pct": -28.3
   },
   {
    "ticker": "MPC",
-   "pnl_pct": -17.3
+   "pnl_pct": -20.6
   },
   {
    "ticker": "ILMN",
-   "pnl_pct": -15.4
+   "pnl_pct": -22.4
   },
   {
    "ticker": "NTAP",
-   "pnl_pct": -10.6
+   "pnl_pct": -19.3
   },
   {
    "ticker": "HUM",
-   "pnl_pct": -2.3
+   "pnl_pct": -3.6
   },
   {
    "ticker": "MRVL",
-   "pnl_pct": -33.5
+   "pnl_pct": -44.5
   },
   {
    "ticker": "RVTY",
-   "pnl_pct": 0.4
+   "pnl_pct": -5.0
   },
   {
    "ticker": "VEEV",
-   "pnl_pct": -2.4
+   "pnl_pct": -2.5
   },
   {
    "ticker": "P",
-   "pnl_pct": -19.4
+   "pnl_pct": -32.6
   },
   {
    "ticker": "CRL",
-   "pnl_pct": -12.8
+   "pnl_pct": -16.3
   },
   {
    "ticker": "ZBRA",
-   "pnl_pct": -7.9
+   "pnl_pct": -10.9
   },
   {
    "ticker": "OKTA",
+   "pnl_pct": -10.4
+  },
+  {
+   "ticker": "VLO",
    "pnl_pct": 0.0
   }
  ],
  "lines": [
-  "Since the start: picker A -13.2%, original 10 -1.0%, picker B -7.0%.",
-  "6 trades closed so far, 0 made money.",
+  "Since the start: picker A -20.9%, original 10 -4.2%, picker B -16.8%.",
+  "7 trades closed so far, 0 made money.",
   "Sells for \"swapped for RVTY\": 1 so far, average -0.9%.",
   "Sells for \"swapped for VEEV\": 1 so far, average -1.3%.",
   "Sells for \"swapped for P\": 1 so far, average -7.7%.",
   "Sells for \"swapped for CRL\": 1 so far, average -10.4%.",
   "Sells for \"swapped for ZBRA\": 1 so far, average -21.3%.",
   "Sells for \"swapped for OKTA\": 1 so far, average -17.5%.",
-  "Open positions down 10% or more: DELL -19.3%, MU -11.3%, HPE -10.7%, FTNT -24.3%, DDOG -26.4%, MPC -17.3%, ILMN -15.4%, NTAP -10.6%, MRVL -33.5%, P -19.4%, CRL -12.8%.",
-  "Only 6 closed trades, so this is too little to change rules on. The review waits for 30."
+  "Sells for \"swapped for VLO\": 1 so far, average -31.9%.",
+  "Open positions down 10% or more: DELL -31.3%, MU -26.7%, AMD -24.4%, HPE -21.3%, FTNT -28.3%, MPC -20.6%, ILMN -22.4%, NTAP -19.3%, MRVL -44.5%, P -32.6%, CRL -16.3%, ZBRA -10.9%, OKTA -10.4%.",
+  "Only 7 closed trades, so this is too little to change rules on. The review waits for 30."
  ],
  "enough_data": false
 }
