@@ -1,6 +1,6 @@
 {
- "date": "2026-11-05",
- "closed": 7,
+ "date": "2026-11-06",
+ "closed": 8,
  "wins": 0,
  "rules": [
   {
@@ -37,6 +37,11 @@
    "rule": "swapped for VLO",
    "count": 1,
    "avg_pnl_pct": -31.9
+  },
+  {
+   "rule": "swapped for PSX",
+   "count": 1,
+   "avg_pnl_pct": -24.4
   }
  ],
  "whipsaws": [],
@@ -56,10 +61,6 @@
   {
    "ticker": "CRWD",
    "pnl_pct": -4.5
-  },
-  {
-   "ticker": "AMD",
-   "pnl_pct": -24.4
   },
   {
    "ticker": "HPE",
@@ -120,11 +121,15 @@
   {
    "ticker": "VLO",
    "pnl_pct": 0.0
+  },
+  {
+   "ticker": "PSX",
+   "pnl_pct": -0.0
   }
  ],
  "lines": [
   "Since the start: picker A -20.9%, original 10 -4.2%, picker B -16.8%.",
-  "7 trades closed so far, 0 made money.",
+  "8 trades closed so far, 0 made money.",
   "Sells for \"swapped for RVTY\": 1 so far, average -0.9%.",
   "Sells for \"swapped for VEEV\": 1 so far, average -1.3%.",
   "Sells for \"swapped for P\": 1 so far, average -7.7%.",
@@ -132,8 +137,9 @@
   "Sells for \"swapped for ZBRA\": 1 so far, average -21.3%.",
   "Sells for \"swapped for OKTA\": 1 so far, average -17.5%.",
   "Sells for \"swapped for VLO\": 1 so far, average -31.9%.",
-  "Open positions down 10% or more: DELL -31.3%, MU -26.7%, AMD -24.4%, HPE -21.3%, FTNT -28.3%, MPC -20.6%, ILMN -22.4%, NTAP -19.3%, MRVL -44.5%, P -32.6%, CRL -16.3%, ZBRA -10.9%, OKTA -10.4%.",
-  "Only 7 closed trades, so this is too little to change rules on. The review waits for 30."
+  "Sells for \"swapped for PSX\": 1 so far, average -24.4%.",
+  "Open positions down 10% or more: DELL -31.3%, MU -26.7%, HPE -21.3%, FTNT -28.3%, MPC -20.6%, ILMN -22.4%, NTAP -19.3%, MRVL -44.5%, P -32.6%, CRL -16.3%, ZBRA -10.9%, OKTA -10.4%.",
+  "Only 8 closed trades, so this is too little to change rules on. The review waits for 30."
  ],
  "enough_data": false
 }
