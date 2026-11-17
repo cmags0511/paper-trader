@@ -1,5 +1,5 @@
 {
- "date": "2026-11-13",
+ "date": "2026-11-16",
  "closed": 11,
  "wins": 1,
  "rules": [
@@ -63,87 +63,87 @@
  "open": [
   {
    "ticker": "MRNA",
-   "pnl_pct": -4.4
+   "pnl_pct": -11.1
   },
   {
    "ticker": "DELL",
-   "pnl_pct": -19.6
+   "pnl_pct": -30.6
   },
   {
    "ticker": "CRWD",
-   "pnl_pct": 1.1
+   "pnl_pct": -1.8
   },
   {
    "ticker": "HPE",
-   "pnl_pct": -10.6
+   "pnl_pct": -17.0
   },
   {
    "ticker": "PANW",
-   "pnl_pct": -5.2
+   "pnl_pct": -7.1
   },
   {
    "ticker": "FTNT",
-   "pnl_pct": -25.6
+   "pnl_pct": -27.9
   },
   {
    "ticker": "MPC",
-   "pnl_pct": -12.7
+   "pnl_pct": -15.3
   },
   {
    "ticker": "ILMN",
-   "pnl_pct": -22.7
+   "pnl_pct": -26.1
   },
   {
    "ticker": "NTAP",
-   "pnl_pct": -13.6
+   "pnl_pct": -15.3
   },
   {
    "ticker": "HUM",
-   "pnl_pct": 5.3
+   "pnl_pct": 7.9
   },
   {
    "ticker": "RVTY",
-   "pnl_pct": -2.8
+   "pnl_pct": -6.2
   },
   {
    "ticker": "VEEV",
-   "pnl_pct": -5.0
+   "pnl_pct": -5.9
   },
   {
    "ticker": "P",
-   "pnl_pct": -20.6
+   "pnl_pct": -25.3
   },
   {
    "ticker": "CRL",
-   "pnl_pct": -9.6
-  },
-  {
-   "ticker": "ZBRA",
    "pnl_pct": -10.3
   },
   {
+   "ticker": "ZBRA",
+   "pnl_pct": -11.4
+  },
+  {
    "ticker": "OKTA",
-   "pnl_pct": -4.5
+   "pnl_pct": -6.7
   },
   {
    "ticker": "VLO",
-   "pnl_pct": 8.1
+   "pnl_pct": 5.3
   },
   {
    "ticker": "PSX",
-   "pnl_pct": 6.4
+   "pnl_pct": 5.5
   },
   {
    "ticker": "TECH",
-   "pnl_pct": 0.0
+   "pnl_pct": -0.0
   },
   {
    "ticker": "BBY",
-   "pnl_pct": -1.0
+   "pnl_pct": -1.7
   }
  ],
  "lines": [
-  "Since the start: picker A -15.4%, original 10 -2.5%, picker B -11.5%.",
+  "Since the start: picker A -17.9%, original 10 -4.3%, picker B -15.1%.",
   "11 trades closed so far, 1 made money.",
   "Sells for \"swapped for RVTY\": 1 so far, average -0.9%.",
   "Sells for \"swapped for VEEV\": 1 so far, average -1.3%.",
@@ -156,7 +156,7 @@
   "Sells for \"swapped for ANET\": 1 so far, average -18.2%.",
   "Sells for \"swapped for TECH\": 1 so far, average +5.6%.",
   "Sells for \"swapped for BBY\": 1 so far, average -29.8%.",
-  "Open positions down 10% or more: DELL -19.6%, HPE -10.6%, FTNT -25.6%, MPC -12.7%, ILMN -22.7%, NTAP -13.6%, P -20.6%, ZBRA -10.3%.",
+  "Open positions down 10% or more: MRNA -11.1%, DELL -30.6%, HPE -17.0%, FTNT -27.9%, MPC -15.3%, ILMN -26.1%, NTAP -15.3%, P -25.3%, CRL -10.3%, ZBRA -11.4%.",
   "Only 11 closed trades, so this is too little to change rules on. The review waits for 30."
  ],
  "enough_data": false
